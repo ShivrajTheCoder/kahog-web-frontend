@@ -8,6 +8,9 @@ import Ebooks from './screens/Ebooks'
 import Audiobooks from './screens/Audiobooks'
 import Events from './screens/OriginalsScreen.jsx/Events'
 import Karyashala from './screens/OriginalsScreen.jsx/Karyashala'
+import Pathshala from './screens/OriginalsScreen.jsx/Pathshala'
+import Haat from './screens/EcommerceScreens/Haat'
+import ProductDetails from './screens/EcommerceScreens/ProductDetails'
 
 export default function App() {
   return (
@@ -20,6 +23,9 @@ export default function App() {
         <Route path='/audiobooks' element={<Audiobooks />} />
         <Route path='/events' element={<Events />} />
         <Route path='/karyashala' element={<Karyashala />} />
+        <Route path='/pathshala' element={<Pathshala />} />
+        <Route path='/haat' element={<Haat />} />
+        <Route path='/productdetails' element={<ProductDetails />} />
       </Routes>
       <Footer/>
     </BrowserRouter>
