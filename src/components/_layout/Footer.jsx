@@ -5,10 +5,10 @@ import { FiPhoneCall } from 'react-icons/fi';
 
 const Footer = () => {
   return (
-    <div className='w-full bg-black text-white shadow-2xl'>
-      <div className='mx-3 md:mx-10 pb-20'>
-        <div className='bg-white  rounded-b-3xl shadow-2xl shadow-slate-700 md:py-20 py-7 md:px-4 text-black'>
-          <div className='flex justify-center mb-10'>
+    <div className='w-full bg-green-800 text-white shadow-2xl'>
+      <div className='mx-3 md:mx-32 pb-20'>
+        <div className='bg-white  rounded-b-3xl shadow-2xl shadow-slate-700 md:py-10 py-7 md:px-4 text-black'>
+          <div className='flex justify-center mb-5'>
             <div className='flex flex-col md:flex-row justify-center gap-10'>
               <div>
                 <div><h3 className='text-sm font-bold uppercase tracking-wider'>Discover us</h3></div>
