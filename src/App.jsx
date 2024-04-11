@@ -6,6 +6,7 @@ import Footer from './components/_layout/Footer'
 import Podcasts from './screens/Podcasts'
 import Ebooks from './screens/Ebooks'
 import Audiobooks from './screens/Audiobooks'
+import Events from './screens/OriginalsScreen.jsx/Events'
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path='/podcasts' element={<Podcasts />} />
         <Route path='/ebooks' element={<Ebooks />} />
         <Route path='/audiobooks' element={<Audiobooks />} />
+        <Route path='/events' element={<Events />} />
       </Routes>
       <Footer/>
     </BrowserRouter>
