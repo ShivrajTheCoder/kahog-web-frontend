@@ -11,6 +11,7 @@ import Karyashala from './screens/OriginalsScreen.jsx/Karyashala'
 import Pathshala from './screens/OriginalsScreen.jsx/Pathshala'
 import Haat from './screens/EcommerceScreens/Haat'
 import ProductDetails from './screens/EcommerceScreens/ProductDetails'
+import CirclesandComm from './screens/OtherScreens/CirclesandComm'
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         <Route path='/pathshala' element={<Pathshala />} />
         <Route path='/haat' element={<Haat />} />
         <Route path='/productdetails' element={<ProductDetails />} />
+        <Route path='/circles&communities' element={<CirclesandComm/>} />
       </Routes>
       <Footer/>
     </BrowserRouter>

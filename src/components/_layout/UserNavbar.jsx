@@ -59,6 +59,9 @@ export default function UserNavbar() {
               <li className="hover:bg-gray-100">
               <Link to={"/pathshala"}>Pathshala</Link>
               </li>
+              <li className="hover:bg-gray-100">
+              <Link to={"/circles&communities"}>Circles & Communities</Link>
+              </li>
             </ul>
           </div>
         )}
