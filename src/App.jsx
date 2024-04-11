@@ -5,6 +5,7 @@ import UserNavbar from './components/_layout/UserNavbar'
 import Footer from './components/_layout/Footer'
 import Podcasts from './screens/Podcasts'
 import Ebooks from './screens/Ebooks'
+import Audiobooks from './screens/Audiobooks'
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Route path='/' element={<Home />} />
         <Route path='/podcasts' element={<Podcasts />} />
         <Route path='/ebooks' element={<Ebooks />} />
+        <Route path='/audiobooks' element={<Audiobooks />} />
       </Routes>
       <Footer/>
     </BrowserRouter>
