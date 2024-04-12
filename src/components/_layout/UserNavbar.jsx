@@ -71,6 +71,9 @@ export default function UserNavbar() {
               <li className="hover:bg-gray-100">
                 <Link to={"/channels"}>Channels</Link>
               </li>
+              <li className="hover:bg-gray-100">
+                <Link to={"/creatorstudio"}>Creator Studio</Link>
+              </li>
             </ul>
           </div>
         )}
