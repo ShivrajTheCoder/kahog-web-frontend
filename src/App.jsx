@@ -17,6 +17,7 @@ import Following from './screens/OtherScreens/Following'
 import AllChannels from './screens/OtherScreens/AllChannels'
 import CreatorStudio from './screens/CreatorScreens/CreatorStudio'
 import UploadContent from './screens/CreatorScreens/UploadContent'
+import Live from './screens/LiveScreens/Live'
 
 export default function App() {
   return (
@@ -38,6 +39,7 @@ export default function App() {
         <Route path='/channels' element={<AllChannels/>} />
         <Route path='/creatorstudio' element={<CreatorStudio/>} />
         <Route path='/uploadcontent/:channelId' element={<UploadContent/>} />
+        <Route path='/live' element={<Live/>} />
       </Routes>
       <Footer/>
     </BrowserRouter>

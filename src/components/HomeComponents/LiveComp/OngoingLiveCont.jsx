@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 export default function OngoingLiveCont() {
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -46,7 +47,7 @@ export default function OngoingLiveCont() {
                         <img src="https://res.cloudinary.com/dushmacr8/image/upload/v1707575264/kj%20images/audiocover3_oxgkjv.jpg" alt="Live event" className="w-full h-40 object-cover mb-4" />
                         <h3 className="text-lg font-semibold mb-2">{live.topic}</h3>
                         <p className="text-gray-700">{live.description}</p>
-                        <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded-md bottom-4 w-full">Join Now</button>
+                        <Link to={`/live`} className="bg-blue-500 text-white font-bold py-2 px-4 rounded-md bottom-4 w-full">Join Now</Link>
                     </div>
                 ))}
             </div>
