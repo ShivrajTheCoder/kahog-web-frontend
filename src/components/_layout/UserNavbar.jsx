@@ -57,16 +57,19 @@ export default function UserNavbar() {
                 <Link to={"/karyashala"}>Karyasha</Link>
               </li>
               <li className="hover:bg-gray-100">
-              <Link to={"/pathshala"}>Pathshala</Link>
+                <Link to={"/pathshala"}>Pathshala</Link>
               </li>
               <li className="hover:bg-gray-100">
-              <Link to={"/circles&communities"}>Circles & Communities</Link>
+                <Link to={"/circles&communities"}>Circles & Communities</Link>
               </li>
               <li className="hover:bg-gray-100">
-              <Link to={"/coaches"}>Coaches</Link>
+                <Link to={"/coaches"}>Coaches</Link>
               </li>
               <li className="hover:bg-gray-100">
-              <Link to={"/following"}>Following</Link>
+                <Link to={"/following"}>Following</Link>
+              </li>
+              <li className="hover:bg-gray-100">
+                <Link to={"/channels"}>Channels</Link>
               </li>
             </ul>
           </div>

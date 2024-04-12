@@ -14,6 +14,7 @@ import ProductDetails from './screens/EcommerceScreens/ProductDetails'
 import CirclesandComm from './screens/OtherScreens/CirclesandComm'
 import Coaches from './screens/OtherScreens/Coaches'
 import Following from './screens/OtherScreens/Following'
+import AllChannels from './screens/OtherScreens/AllChannels'
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
         <Route path='/circles&communities' element={<CirclesandComm/>} />
         <Route path='/coaches' element={<Coaches/>} />
         <Route path='/following' element={<Following/>} />
+        <Route path='/channels' element={<AllChannels/>} />
       </Routes>
       <Footer/>
     </BrowserRouter>
