@@ -18,6 +18,7 @@ import AllChannels from './screens/OtherScreens/AllChannels'
 import CreatorStudio from './screens/CreatorScreens/CreatorStudio'
 import UploadContent from './screens/CreatorScreens/UploadContent'
 import Live from './screens/LiveScreens/Live'
+import Dashboard from './screens/AdminScreens/Dashboard'
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
         <Route path='/creatorstudio' element={<CreatorStudio/>} />
         <Route path='/uploadcontent/:channelId' element={<UploadContent/>} />
         <Route path='/live' element={<Live/>} />
+        <Route path='/dashboard' element={<Dashboard/>} />
       </Routes>
       <Footer/>
     </BrowserRouter>
