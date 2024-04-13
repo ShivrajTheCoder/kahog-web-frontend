@@ -48,7 +48,7 @@ export default function LiveReqContainer() {
   };
 
   return (
-    <div>
+    <div className='my-4'>
       {/* <h1>Live Requests</h1> */}
       <table className="table-auto w-full">
         <thead>
