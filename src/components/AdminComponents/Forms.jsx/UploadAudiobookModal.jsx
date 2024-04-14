@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import Textarea from '../../Textarea'; // Import your custom Textarea component
+import axios from 'axios';
 import Input from '../../Input';
 
 export default function UploadAudiobookModal({ onClose }) {
@@ -9,6 +11,32 @@ export default function UploadAudiobookModal({ onClose }) {
   const [coverImage, setCoverImage] = useState(null);
   const [category, setCategory] = useState('');
   const [error, setError] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [catError, setCatError] = useState(null);
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  useEffect(() => {
+    setError(null);
+
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/category/getallcategories`);
+        if (response.status === 200) {
+          setCategories(response.data.categories);
+        } else {
+          setCatError("Couldn't fetch categories");
+        }
+      } catch (error) {
+        console.error(error);
+        setCatError("Failed to fetch categories"); // Provide a more informative error message
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleAudioFileChange = (e) => {
     const selectedAudioFile = e.target.files[0];
@@ -20,7 +48,7 @@ export default function UploadAudiobookModal({ onClose }) {
     setCoverImage(selectedCoverImage);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     // Validate form fields
     if (!name || !description || !audioFile || !coverImage || !category) {
@@ -29,14 +57,25 @@ export default function UploadAudiobookModal({ onClose }) {
     }
     // Submit form data
     const formData = new FormData();
-    formData.append('name', name);
+    formData.append('title', name);
     formData.append('description', description);
-    formData.append('audioFile', audioFile);
-    formData.append('coverImage', coverImage);
-    formData.append('category', category);
-    // Example: You can send formData to backend API here
-    // After successful submission, you can close the modal
-    onClose();
+    formData.append('audio', audioFile);
+    formData.append('cover', coverImage);
+    formData.append('categoryId', category);
+    try {
+      const response = await axios.post(`${apiUrl}/audiobooks/addaudiobook`, formData);
+      console.log(response);
+      if (response.status === 201) {
+        onClose();
+
+      }
+      else {
+        console.log("Something went wrong!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    // onClose();
   };
 
   return (
@@ -57,9 +96,8 @@ export default function UploadAudiobookModal({ onClose }) {
             onChange={(e) => setName(e.target.value)}
             error={error}
           />
-          <Input
+          <Textarea // Use your custom Textarea component
             label="Description"
-            type="text"
             id="description"
             name="description"
             placeholder="Enter description"
@@ -85,16 +123,32 @@ export default function UploadAudiobookModal({ onClose }) {
             onChange={handleCoverImageChange}
             className="mb-4"
           />
-          <Input
-            label="Category"
-            type="text"
-            id="category"
-            name="category"
-            placeholder="Enter category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            error={error}
-          />
+          {loading ? (
+            <p>Loading categories...</p>
+          ) : (
+            <>
+              {categories.length > 0 ? (
+                <div className="mb-4">
+                  <label htmlFor="category" className="block mb-2">Select Category:</label>
+                  <select
+                    id="category"
+                    name="category"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="w-full p-2 border rounded-md"
+                  >
+                    <option value="">Select Category</option>
+                    {categories.map((cat) => (
+                      <option key={cat.id} value={cat.id}>{cat.category_name}</option>
+                    ))}
+                  </select>
+                </div>
+              ) : (
+                <p>No categories available</p>
+              )}
+            </>
+          )}
+          {catError && <p className="text-red-500">{catError}</p>}
           <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4">
             Upload Audiobook
           </button>
