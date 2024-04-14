@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import Textarea from '../../Textarea'; // Import your custom Textarea component
+import axios from 'axios';
 import Input from '../../Input';
-
 
 export default function UploadPodcastModal({ onClose }) {
   const [name, setName] = useState('');
@@ -10,6 +11,33 @@ export default function UploadPodcastModal({ onClose }) {
   const [thumbnail, setThumbnail] = useState(null);
   const [category, setCategory] = useState('');
   const [error, setError] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [catError, setCatError] = useState(null);
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  useEffect(() => {
+    setError(null);
+
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/category/getallcategories`);
+        // console.log(response.data.categories, 'here are categories');
+        if (response.status === 200) {
+          setCategories(response.data.categories);
+        } else {
+          setCatError("Couldn't fetch categories");
+        }
+      } catch (error) {
+        console.error(error);
+        setCatError("Failed to fetch categories"); // Provide a more informative error message
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleMediaFileChange = (e) => {
     const selectedMediaFile = e.target.files[0];
@@ -21,23 +49,37 @@ export default function UploadPodcastModal({ onClose }) {
     setThumbnail(selectedThumbnail);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Validate form fields
     if (!name || !description || !mediaFile || !thumbnail || !category) {
       setError('All fields are required');
       return;
     }
+    // Determine if the media file is a video
+    const isVideo = mediaFile.type.startsWith('video/');
     // Submit form data
     const formData = new FormData();
     formData.append('name', name);
     formData.append('description', description);
+    formData.append('authorId', 1); // Assuming authorId is always 1
     formData.append('mediaFile', mediaFile);
     formData.append('thumbnail', thumbnail);
-    formData.append('category', category);
-    // Example: You can send formData to backend API here
-    // After successful submission, you can close the modal
-    onClose();
+    formData.append('categoryId', category);
+    formData.append('isVideo', isVideo);
+    try {
+      const response = await axios.post(`${apiUrl}/podcasts/uploadpodcast`, formData);
+      console.log(response);
+      if (response.status === 201) {
+        onClose();
+
+      }
+      else {
+        console.log("Something went wrong!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -58,9 +100,8 @@ export default function UploadPodcastModal({ onClose }) {
             onChange={(e) => setName(e.target.value)}
             error={error}
           />
-          <Input
+          <Textarea // Use your custom Textarea component
             label="Description"
-            type="text"
             id="description"
             name="description"
             placeholder="Enter description"
@@ -86,16 +127,32 @@ export default function UploadPodcastModal({ onClose }) {
             onChange={handleThumbnailChange}
             className="mb-4"
           />
-          <Input
-            label="Category"
-            type="text"
-            id="category"
-            name="category"
-            placeholder="Enter category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            error={error}
-          />
+          {loading ? (
+            <p>Loading categories...</p>
+          ) : (
+            <>
+              {categories.length > 0 ? (
+                <div className="mb-4">
+                  <label htmlFor="category" className="block mb-2">Select Category:</label>
+                  <select
+                    id="category"
+                    name="category"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="w-full p-2 border rounded-md"
+                  >
+                    <option value="">Select Category</option>
+                    {categories.map((cat) => (
+                      <option key={cat.id} value={cat.id}>{cat.category_name}</option>
+                    ))}
+                  </select>
+                </div>
+              ) : (
+                <p>No categories available</p>
+              )}
+            </>
+          )}
+          {catError && <p className="text-red-500">{catError}</p>}
           <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4">
             Upload Podcast
           </button>
