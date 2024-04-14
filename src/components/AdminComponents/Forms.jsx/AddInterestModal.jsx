@@ -1,24 +1,34 @@
 import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import Input from '../../Input';
+import Textarea from '../../Textarea'; // Import your custom Textarea component
+import axios from 'axios';
 
 export default function AddInterestModal({ onClose }) {
   const [name, setName] = useState('');
+  const [description, setDescription] = useState(''); // State for description
   const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const apiUrl = import.meta.env.VITE_API_URL;
     // Validate form fields
-    if (!name) {
-      setError('Name field is required');
+    if (!name || !description) {
+      setError(' All fields are required');
       return;
     }
     // Submit form data
     const formData = {
-      name
+      name,
+      description // Include description in formData
     };
-    // Example: You can send formData to backend API here
-    // After successful submission, you can close the modal
+    try {
+      const response = await axios.post(`${apiUrl}/interests/addinterest`, formData);
+      console.log(response.data);
+      onClose();
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
     onClose();
   };
 
@@ -39,6 +49,14 @@ export default function AddInterestModal({ onClose }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             error={error}
+          />
+          <Textarea // Use your custom Textarea component for description
+            label="Description" // Label for description field
+            id="description" // ID for description field
+            name="description" // Name for description field
+            placeholder="Enter description" // Placeholder for description field
+            value={description} // Value of description
+            onChange={(e) => setDescription(e.target.value)} // onChange handler for description
           />
           <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4">
             Add Interest
