@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import AddProduct from '../AdminComponents/Forms.jsx/AddProduct';
 import UploadPodcastModal from '../AdminComponents/Forms.jsx/UploadPodcastModal';
 import UploadEbookModal from '../AdminComponents/Forms.jsx/UploadEbookModal';
-// import AddProductModal from './AddProductModal';
-// import UploadPodcastModal from './UploadPodcastModal';
-// import UploadEbookModal from './UploadEbookModal';
-// import UploadAudiobookModal from './UploadAudiobookModal';
-// import PostEventModal from './PostEventModal';
-// import AddCommunityModal from './AddCommunityModal';
-// import AddInterestModal from './AddInterestModal';
-// import AddCircleModal from './AddCircleModal';
-// import AddCategoryModal from './AddCategoryModal';
+import UploadAudiobookModal from '../AdminComponents/Forms.jsx/UploadAudiobookModal';
+import PostEventModal from '../AdminComponents/Forms.jsx/PostEventModal';
+import AddCommunityModal from '../AdminComponents/Forms.jsx/AddCommunityModal';
+import AddInterestModal from '../AdminComponents/Forms.jsx/AddInterestModal';
+import AddCircleModal from '../AdminComponents/Forms.jsx/AddCircleModal';
+import AddCategoryModal from '../AdminComponents/Forms.jsx/AddCategoryModal';
+
 
 export default function Sidebar() {
   const [isAddProductModalOpen, setAddProductModalOpen] = useState(false);
