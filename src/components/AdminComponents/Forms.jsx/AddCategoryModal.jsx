@@ -1,27 +1,35 @@
 import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import Input from '../../Input';
+import axios from 'axios';
 
 export default function AddCategoryModal({ onClose }) {
   const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  // const [description, setDescription] = useState('');
   const [error, setError] = useState('');
-
-  const handleSubmit = (e) => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(name);
     // Validate form fields
-    if (!name || !description) {
+    if (!name ) {
       setError('All fields are required');
       return;
     }
     // Submit form data
     const formData = {
-      name,
-      description
+      categoryName:name,
+      // description
     };
     // Example: You can send formData to backend API here
     // After successful submission, you can close the modal
-    onClose();
+    try {
+      const response = await axios.post(`${apiUrl}/category/addcategory`, formData);
+      console.log(response.data);
+      onClose();
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
   };
 
   return (
@@ -42,7 +50,7 @@ export default function AddCategoryModal({ onClose }) {
             onChange={(e) => setName(e.target.value)}
             error={error}
           />
-          <Input
+          {/* <Input
             label="Description"
             type="text"
             id="description"
@@ -51,7 +59,7 @@ export default function AddCategoryModal({ onClose }) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             error={error}
-          />
+          /> */}
           <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4">
             Add Category
           </button>
