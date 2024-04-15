@@ -94,11 +94,12 @@ export default function AddContentForm() {
         setThumbnail(null);
         setCategory('');
         setError('');
+        alert("Content uploaded successfully!");
       } else {
-        console.log("Something went wrong!");
+      alert("Something went wrong!");
       }
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 
