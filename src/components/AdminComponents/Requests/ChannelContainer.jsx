@@ -1,8 +1,9 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
 export default function ChannelContainer() {
   const [channels, setChannels] = useState([]);
-
+  const apiUrl=import.meta.env.VITE_API_URL;
   useEffect(() => {
     // Dummy data for demonstration
     const dummyData = [
@@ -27,9 +28,25 @@ export default function ChannelContainer() {
     setChannels(dummyData);
   }, []);
 
-  const handleApprove = (id) => {
+  const handleApprove = async(id) => {
     // Implement approve logic here
-    console.log("Approved channel with ID:", id);
+    try{
+      //change channel id
+      const resp=await axios.put(`${apiUrl}/channels/approvechannel/1`,{
+        isApproved:true
+      });
+      console.log(resp);
+      if(resp.status===200){
+        console.log(resp.data);
+      }
+      else{
+        alert("Something went wrong");
+      }
+    }
+    catch(error){
+      alert(error);
+    }
+    // console.log("Approved channel with ID:", id);
   };
 
   const handleDisapprove = (id) => {
@@ -59,7 +76,7 @@ export default function ChannelContainer() {
               <td className="border px-4 py-2">{channel.creatorName}</td>
               <td className="border px-4 py-2 grid grid-cols-2">
                 <button onClick={() => handleApprove(channel.id)} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-2 rounded mr-2">Approve</button>
-                <button onClick={() => handleDisapprove(channel.id)} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-2 rounded">Disapprove</button>
+                {/* <button onClick={() => handleDisapprove(channel.id)} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-2 rounded">Disapprove</button> */}
               </td>
             </tr>
           ))}
