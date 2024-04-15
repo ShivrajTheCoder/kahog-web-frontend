@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import LiveCard from './LiveCard';
 
 export default function LiveReqContainer() {
   const [liveRequests, setLiveRequests] = useState([]);
@@ -62,30 +63,7 @@ export default function LiveReqContainer() {
         </thead>
         <tbody>
           {liveRequests.map(request => (
-            <tr key={request.id}>
-              <td className="border px-4 py-2">{request.creatorId}</td>
-              <td className="border px-4 py-2">{request.date}</td>
-              <td className="border px-4 py-2">
-                <input
-                  type="time"
-                  value={request.startTime}
-                  onChange={(e) => handleStartTimeChange(request.id, e.target.value)}
-                  className="border px-2 py-1"
-                />
-              </td>
-              <td className="border px-4 py-2">
-                <input
-                  type="time"
-                  value={request.endTime}
-                  onChange={(e) => handleEndTimeChange(request.id, e.target.value)}
-                  className="border px-2 py-1"
-                />
-              </td>
-              <td className="border px-4 py-2">
-                <button onClick={() => handleApprove(request.id)} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-2">Approve</button>
-                <button onClick={() => handleDisapprove(request.id)} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Disapprove</button>
-              </td>
-            </tr>
+            <LiveCard key={request.id} request={request} />
           ))}
         </tbody>
       </table>
