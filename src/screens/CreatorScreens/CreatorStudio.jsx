@@ -1,6 +1,7 @@
 import React from 'react'
 import ChannelContainer from '../../components/CreatorComponents.jsx/ChannelContainer'
-import ListenWithContainer from '../../components/HomeComponents/ListenWithContainer'
+import ListenWithContainer from '../../components/HomeComponents/ListenWithComponents/ListenWithContainer'
+
 
 export default function CreatorStudio() {
   return (
