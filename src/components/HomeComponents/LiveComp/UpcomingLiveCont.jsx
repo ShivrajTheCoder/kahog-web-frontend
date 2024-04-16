@@ -39,14 +39,14 @@ export default function UpcomingLiveCont() {
 
     return (
         <div className='mx-20 my-10'>
-            <h2 className="text-2xl font-bold mb-4">Ongoing Live Events</h2>
+            <h2 className="text-2xl font-bold mb-4">Upcoming Live Events</h2>
             <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 {lives.map((live, index) => (
                     <div key={index} className="border rounded p-4 shadow-md ">
                         <img src="https://res.cloudinary.com/dushmacr8/image/upload/v1707575264/kj%20images/audiocover3_oxgkjv.jpg" alt="Live event" className="w-full h-40 object-cover mb-4" />
                         <h3 className="text-lg font-semibold mb-2">{live.topic}</h3>
                         <p className="text-gray-700">{live.description}</p>
-                        <button className="bg-black text-white font-bold py-2 px-4 rounded-md bottom-4 w-full">Get Notified</button>
+                        <button className="bg-black text-white font-bold py-2 px-4 rounded-md bottom-4 w-full">12/04/2024 12:00 PM</button>
                     </div>
                 ))}
             </div>

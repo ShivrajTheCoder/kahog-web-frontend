@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaBell } from "react-icons/fa6";
 import { RiMessage2Fill } from "react-icons/ri";
+
 export default function UserNavbar() {
   const [hoveredLink, setHoveredLink] = useState(null);
   const [showCont, setShowCont] = useState(false);
   const [showNoti,setShowNoti]=useState(false);
   const linkStyle = "text-white mx-4 relative font-bold text-lg";
-
   const underlineStyle = "absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition duration-500 ease-in-out";
 
   const handleMouseEnter = (index) => {
@@ -20,7 +20,7 @@ export default function UserNavbar() {
   };
 
   return (
-    <div className="bg-[#003049] flex justify-center py-4">
+    <div className="bg-black flex justify-center py-4">
       <Link to="/" className={linkStyle} onMouseEnter={() => handleMouseEnter(0)} onMouseLeave={handleMouseLeave}>
         Kaho G
         <div className={hoveredLink === 0 ? underlineStyle + " bg-white" : underlineStyle}></div>
