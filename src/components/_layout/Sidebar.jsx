@@ -9,8 +9,7 @@ export default function Sidebar() {
     podcast: false,
     book: false,
     shop: false,
-    karyashala: false,
-    pathshala: false,
+    workshop:false,
     community: false,
     circles: false,
     category: false,
@@ -42,11 +41,8 @@ export default function Sidebar() {
             <span>{isAddOptionsVisible.podcast ? <FaAngleDown size={20} /> : <FaGreaterThan size={15} />}</span>
           </button>
           {isAddOptionsVisible.podcast && (
-            <div className="ml-4 mt-2 bg-white text-black">
-              <button onClick={() => console.log('Upload Podcast')} className="block  w-full py-2 rounded-md">
-                Upload Podcast
-              </button>
-              <Link to={"/dashboard/addpodcast"}>Upload Podcast</Link>
+            <div className="ml-4 mt-2 bg-white rounded-md text-blue-900 text-center">
+              <Link to={"/dashboard/addpodcast" } className="block  w-full py-2 rounded-md">Upload Podcast</Link>
               {/* Add more options here */}
             </div>
           )}
@@ -57,18 +53,19 @@ export default function Sidebar() {
             <span>{isAddOptionsVisible.book ? <FaAngleDown size={20} /> : <FaGreaterThan size={15} />}</span>
           </button>
           {isAddOptionsVisible.book && (
-            <div className="ml-4 mt-2 bg-white">
-              {/* Add options for books */}
+            <div className="ml-4 mt-2 bg-white rounded-md text-blue-900 text-center">
+              <Link to={"/dashboard/addebook" } className="block  w-full py-2 rounded-md">Upload Ebook</Link>
+              <Link to={"/dashboard/addaudiobook" } className="block  w-full py-2 rounded-md">Upload Audiobook</Link>
             </div>
           )}
         </li>
         <li  className="w-full my-4">
-          <button className="grid grid-cols-5 w-full items-center" onClick={() => toggleAddOptions('book')}>
+          <button className="grid grid-cols-5 w-full items-center" onClick={() => toggleAddOptions('shop')}>
             <span className="col-span-4 text-start">Shop</span>
-            <span>{isAddOptionsVisible.book ? <FaAngleDown size={20} /> : <FaGreaterThan size={15} />}</span>
+            <span>{isAddOptionsVisible.shop ? <FaAngleDown size={20} /> : <FaGreaterThan size={15} />}</span>
           </button>
           {isAddOptionsVisible.book && (
-            <div className="ml-4 mt-2 bg-white">
+            <div className="ml-4 mt-2 bg-white rounded-md text-blue-900 text-center">
               {/* Add options for books */}
             </div>
           )}
@@ -76,10 +73,10 @@ export default function Sidebar() {
         <li  className="w-full my-4">
           <button className="grid grid-cols-5 w-full items-center" onClick={() => toggleAddOptions('book')}>
             <span className="col-span-4 text-start">Workshops</span>
-            <span>{isAddOptionsVisible.book ? <FaAngleDown size={20} /> : <FaGreaterThan size={15} />}</span>
+            <span>{isAddOptionsVisible.workshop? <FaAngleDown size={20} /> : <FaGreaterThan size={15} />}</span>
           </button>
           {isAddOptionsVisible.book && (
-            <div className="ml-4 mt-2 bg-white">
+            <div className="ml-4 mt-2 bg-white rounded-md text-blue-900 text-center">
               {/* Add options for books */}
             </div>
           )}
@@ -90,7 +87,7 @@ export default function Sidebar() {
             <span>{isAddOptionsVisible.book ? <FaAngleDown size={20} /> : <FaGreaterThan size={15} />}</span>
           </button>
           {isAddOptionsVisible.book && (
-            <div className="ml-4 mt-2 bg-white">
+            <div className="ml-4 mt-2 bg-white rounded-md text-blue-900 text-center">
               {/* Add options for books */}
             </div>
           )}
@@ -101,7 +98,7 @@ export default function Sidebar() {
             <span>{isAddOptionsVisible.book ? <FaAngleDown size={20} /> : <FaGreaterThan size={15} />}</span>
           </button>
           {isAddOptionsVisible.book && (
-            <div className="ml-4 mt-2 bg-white">
+            <div className="ml-4 mt-2 bg-white rounded-md text-blue-900 text-center">
           
             </div>
           )}

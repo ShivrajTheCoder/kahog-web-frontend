@@ -4,7 +4,7 @@ import Textarea from '../../Textarea'; // Import your custom Textarea component
 import Input from '../../Input';
 import axios from 'axios'; // Import axios
 
-export default function PostEventModal({ onClose }) {
+export default function PostEventModal() {
   const [eventType, setEventType] = useState('audio');
   const [eventName, setEventName] = useState(''); // New state for event name
   const [description, setDescription] = useState('');
@@ -53,11 +53,9 @@ export default function PostEventModal({ onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
-      <div className="bg-white p-8 rounded-md w-96 relative">
-        <button onClick={onClose} className="absolute top-2 right-2 text-gray-500 hover:text-black focus:outline-none">
-          <AiOutlineClose size={24} />
-        </button>
+    <div className="">
+      <div className=" p-8 rounded-md w-96 ">
+      
         <h2 className="text-xl font-semibold mb-4">Post Event</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">

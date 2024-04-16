@@ -4,7 +4,7 @@ import Textarea from '../../Textarea'; // Import your custom Textarea component
 import axios from 'axios';
 import Input from '../../Input';
 
-export default function UploadEbookModal({ onClose }) {
+export default function UploadEbookModal() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [ebookFile, setEbookFile] = useState(null);
@@ -76,11 +76,8 @@ export default function UploadEbookModal({ onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
-      <div className="bg-white p-8 rounded-md w-96 relative">
-        <button onClick={onClose} className="absolute top-2 right-2 text-gray-500 hover:text-black focus:outline-none">
-          <AiOutlineClose size={24} />
-        </button>
+    <div className="">
+      <div className=" p-8 rounded-md w-96 ">
         <h2 className="text-xl font-semibold mb-4">Upload Ebook</h2>
         <form onSubmit={handleSubmit}>
           <Input

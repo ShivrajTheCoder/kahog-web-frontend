@@ -4,6 +4,8 @@ import Home from './screens/Home'
 import Dashboard from './screens/AdminScreens/Dashboard'
 import DashboardHome from './screens/AdminScreens/DashboardHome'
 import UploadPodcastModal from './components/AdminComponents/Forms/UploadPodcastModal';
+import UploadEbookModal from './components/AdminComponents/Forms/UploadEbookModal';
+import UploadAudiobookModal from './components/AdminComponents/Forms/UploadAudiobookModal';
 
 export default function App() {
   return (
@@ -29,6 +31,8 @@ export default function App() {
         <Route path='/dashboard' element={<Dashboard />} >
           <Route index element={<DashboardHome />} />
           <Route path='/dashboard/addpodcast' element={ <UploadPodcastModal/>} />
+          <Route path='/dashboard/addebook' element={ <UploadEbookModal/>} />
+          <Route path='/dashboard/addaudiobook' element={ <UploadAudiobookModal/>} />
         </Route>
       </Routes>
       {/* <Footer /> */}
