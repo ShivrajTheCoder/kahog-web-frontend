@@ -1,5 +1,6 @@
 import React from 'react';
-import ListenWithCard from './ListenWithCard';
+import PodcastCard from '../../PodcastComponents/PodcastCard';
+
 
 const data = [
     {
@@ -26,7 +27,7 @@ export default function ListenWithContainer() {
             <h2 className="text-2xl font-bold mb-4">Listen With KahoG</h2>
             <div className="grid grid-cols-1">    
                 {data.map(item => (
-                    <ListenWithCard key={item.id} item={item}/>
+                    <PodcastCard key={item.id} item={item}/>
                 ))}
             </div>
         </div>
