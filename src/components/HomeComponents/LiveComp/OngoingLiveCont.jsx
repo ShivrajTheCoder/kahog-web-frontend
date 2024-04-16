@@ -13,7 +13,6 @@ export default function OngoingLiveCont() {
         const fetchTopLives = async () => {
             try {
                 const response = await axios.get(`${apiUrl}/lives/getTop5LiveEvents`);
-                // console.log(response.data, "here is the response");
                 if (response.status === 200) {
                     setLives(response.data.top5LiveEvents);
                 } else {
@@ -43,11 +42,13 @@ export default function OngoingLiveCont() {
             <h2 className="text-2xl font-bold mb-4">Ongoing Live Events</h2>
             <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 {lives.map((live, index) => (
-                    <div key={index} className="border rounded p-4 shadow-md ">
-                        <img src="https://res.cloudinary.com/dushmacr8/image/upload/v1707575264/kj%20images/audiocover3_oxgkjv.jpg" alt="Live event" className="w-full h-40 object-cover mb-4" />
-                        <h3 className="text-lg font-semibold mb-2">{live.topic}</h3>
-                        <p className="text-gray-700">{live.description}</p>
-                        <Link to={`/live`} className="bg-blue-500 text-white font-bold py-2 px-4 rounded-md bottom-4 w-full">Join Now</Link>
+                    <div key={index} className="border rounded  shadow-md ">
+                        <img src="https://res.cloudinary.com/dushmacr8/image/upload/v1707575264/kj%20images/audiocover3_oxgkjv.jpg" alt="Live event" className="w-full h-40 object-cover mb-4 rounded-t-md " />
+                        <div className='p-4'>
+                            <h3 className="text-lg font-semibold ">{live.topic}</h3>
+                            <p className="text-gray-700 mb-5">{live.description}</p>
+                            <Link to={`/live`} className="bg-blue-500 text-white font-bold py-2 px-4 rounded-md bottom-4 w-full block text-center">Join Now</Link>
+                        </div>
                     </div>
                 ))}
             </div>

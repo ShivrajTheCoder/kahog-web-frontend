@@ -3,7 +3,7 @@ import axios from "axios";
 
 export default function UpcomingLiveCont() {
     const apiUrl = import.meta.env.VITE_API_URL;
-    const [loading,setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [lives, setLives] = useState([]);
 
@@ -42,11 +42,14 @@ export default function UpcomingLiveCont() {
             <h2 className="text-2xl font-bold mb-4">Upcoming Live Events</h2>
             <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 {lives.map((live, index) => (
-                    <div key={index} className="border rounded p-4 shadow-md ">
-                        <img src="https://res.cloudinary.com/dushmacr8/image/upload/v1707575264/kj%20images/audiocover3_oxgkjv.jpg" alt="Live event" className="w-full h-40 object-cover mb-4" />
-                        <h3 className="text-lg font-semibold mb-2">{live.topic}</h3>
-                        <p className="text-gray-700">{live.description}</p>
-                        <button className="bg-black text-white font-bold py-2 px-4 rounded-md bottom-4 w-full">12/04/2024 12:00 PM</button>
+                    <div key={index} className="border rounded  shadow-md ">
+                        <img src="https://res.cloudinary.com/dushmacr8/image/upload/v1707575264/kj%20images/audiocover3_oxgkjv.jpg" alt="Live event" className="w-full h-40 object-cover  rounded-t-md " />
+                        <div className='p-4'>
+                            <h3 className="text-lg font-semibold ">{live.topic}</h3>
+                            <p className="text-gray-700 mb-5">{live.description}</p>
+                            <p className=' text-red-900'>Date: 30/04/2024</p>
+                            <p className=' text-red-900'>Time : 6:30 PM </p>
+                        </div>
                     </div>
                 ))}
             </div>
