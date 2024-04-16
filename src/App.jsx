@@ -19,11 +19,12 @@ import CreatorStudio from './screens/CreatorScreens/CreatorStudio'
 import UploadContent from './screens/CreatorScreens/UploadContent'
 import Live from './screens/LiveScreens/Live'
 import Dashboard from './screens/AdminScreens/Dashboard'
+import DashboardHome from './screens/AdminScreens/DashboardHome'
 
 export default function App() {
   return (
     <BrowserRouter>
-      <UserNavbar />
+      {/* <UserNavbar /> */}
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/podcasts' element={<Podcasts />} />
@@ -34,16 +35,18 @@ export default function App() {
         <Route path='/pathshala' element={<Pathshala />} />
         <Route path='/haat' element={<Haat />} />
         <Route path='/productdetails' element={<ProductDetails />} />
-        <Route path='/circles&communities' element={<CirclesandComm/>} />
-        <Route path='/coaches' element={<Coaches/>} />
-        <Route path='/following' element={<Following/>} />
-        <Route path='/channels' element={<AllChannels/>} />
-        <Route path='/creatorstudio' element={<CreatorStudio/>} />
-        <Route path='/uploadcontent/:channelId' element={<UploadContent/>} />
-        <Route path='/live' element={<Live/>} />
-        <Route path='/dashboard' element={<Dashboard/>} />
+        <Route path='/circles&communities' element={<CirclesandComm />} />
+        <Route path='/coaches' element={<Coaches />} />
+        <Route path='/following' element={<Following />} />
+        <Route path='/channels' element={<AllChannels />} />
+        <Route path='/creatorstudio' element={<CreatorStudio />} />
+        <Route path='/uploadcontent/:channelId' element={<UploadContent />} />
+        <Route path='/live' element={<Live />} />
+        <Route path='/dashboard' element={<Dashboard />} >
+          <Route index element={<DashboardHome />} />
+        </Route>
       </Routes>
-      <Footer/>
+      {/* <Footer /> */}
     </BrowserRouter>
   )
 }

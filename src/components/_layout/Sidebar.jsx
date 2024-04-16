@@ -26,7 +26,7 @@ export default function Sidebar() {
   const [isAddPathshalaModalOpen, setAddPathshalaModalOpen] = useState(false); // State for Add Pathshala modal
 
   return (
-    <div className="min-h-screen w-1/4 bg-gray-300 shadow-md p-4 z-50">
+    <div className="min-h-screen w-1/4 bg-[#2D54C6] shadow-md p-4 z-50">
       <ul className="space-y-1">
         {/* Existing buttons */}
         <li>
