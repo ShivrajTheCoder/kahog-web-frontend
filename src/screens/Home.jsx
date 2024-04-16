@@ -4,6 +4,7 @@ import OngoingLiveCont from "../components/HomeComponents/LiveComp/OngoingLiveCo
 import UpcomingLiveCont from '../components/HomeComponents/LiveComp/UpcomingLiveCont';
 import ListenWithContainer from '../components/HomeComponents/ListenWithComponents/ListenWithContainer';
 import HaatContainer from '../components/HomeComponents/HaatComponents/HaatContainer';
+import RecentPodcastsContainer from '../components/HomeComponents/RecentPodcastsContainer';
 export default function Home() {
   const apiUrl=import.meta.env.VITE_API_URL;
   // console.log(apiUrl);
@@ -13,6 +14,7 @@ export default function Home() {
       <OngoingLiveCont/>
       <UpcomingLiveCont/>
       <ListenWithContainer/>
+      <RecentPodcastsContainer/>
       <HaatContainer/>
     </div>
   )
