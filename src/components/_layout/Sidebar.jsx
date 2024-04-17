@@ -3,6 +3,7 @@ import { FaGreaterThan, FaAngleDown } from 'react-icons/fa';
 import logo from '../../assets/homepage/logo.jpeg';
 import { RiDashboard3Fill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
+import Karyashala from './../../screens/OriginalsScreen.jsx/Karyashala';
 
 export default function Sidebar() {
   const [isAddOptionsVisible, setAddOptionsVisible] = useState({
@@ -106,6 +107,12 @@ export default function Sidebar() {
               </Link>
               <Link to={'/dashboard/addpathshala'} className="block  w-full py-2 rounded-md">
                 Add Pathshala
+              </Link>
+              <Link to={'/dashboard/karyashala'} className="block  w-full py-2 rounded-md">
+                View Karyashala
+              </Link>
+              <Link to={'/dashboard/pathshala'} className="block  w-full py-2 rounded-md">
+                View Pahtshala
               </Link>
             </div>
           )}

@@ -18,6 +18,8 @@ import PodcastContainer from './components/PodcastComponents/PodcastContainer'
 import EbooksContainer from './components/EbooksComponents/EbooksContainer'
 import AudioBooksContainer from './components/HomeComponents/AudioBooksContainer'
 import ProductsContainer from './components/EcommerceComponents/ProductsContainer'
+import Karyashala from './screens/OriginalsScreen.jsx/Karyashala'
+import Pathshala from './screens/OriginalsScreen.jsx/Pathshala'
 
 export default function App() {
   return (
@@ -57,6 +59,8 @@ export default function App() {
           <Route path='/dashboard/ebooks' element={ <EbooksContainer/>} />
           <Route path='/dashboard/audiobooks' element={ <AudioBooksContainer/>} />
           <Route path='/dashboard/products' element={ <ProductsContainer/>} />
+          <Route path='/dashboard/karyashala' element={ <Karyashala/>} />
+          <Route path='/dashboard/pathshala' element={ <Pathshala/>} />
         </Route>
       </Routes>
       {/* <Footer /> */}
