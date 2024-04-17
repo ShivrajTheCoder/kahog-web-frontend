@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export default function AudioBooksContainer() {
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -8,7 +9,7 @@ export default function AudioBooksContainer() {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [audiobooksPerPage] = useState(5); // Number of audiobooks per page
-
+  const { token } = useSelector((state) => state.admin);
   useEffect(() => {
     const fetchAudioBooks = async () => {
       try {
@@ -31,15 +32,22 @@ export default function AudioBooksContainer() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`${apiUrl}/audioBooks/${id}`);
+      const response = await axios.delete(`${apiUrl}/audiobooks/delteaudiobook/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       if (response.status === 200) {
         setAudioBooks(audiobooks.filter(audiobook => audiobook.id !== id));
       } else {
         console.error('Failed to delete audiobook:', response.statusText);
+        alert("Couldn't delelte")
       }
     } catch (error) {
       console.error('Error deleting audiobook:', error);
-      setError(error.message);
+      alert("Couldn't delelte")
+      // setError(error.message);
     }
   };
 
