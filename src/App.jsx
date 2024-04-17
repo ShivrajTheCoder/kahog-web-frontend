@@ -17,6 +17,7 @@ import PostEventModal from './components/AdminComponents/Forms/PostEventModal';
 import PodcastContainer from './components/PodcastComponents/PodcastContainer'
 import EbooksContainer from './components/EbooksComponents/EbooksContainer'
 import AudioBooksContainer from './components/HomeComponents/AudioBooksContainer'
+import ProductsContainer from './components/EcommerceComponents/ProductsContainer'
 
 export default function App() {
   return (
@@ -55,6 +56,7 @@ export default function App() {
           <Route path='/dashboard/podcasts' element={ <PodcastContainer/>} />
           <Route path='/dashboard/ebooks' element={ <EbooksContainer/>} />
           <Route path='/dashboard/audiobooks' element={ <AudioBooksContainer/>} />
+          <Route path='/dashboard/products' element={ <ProductsContainer/>} />
         </Route>
       </Routes>
       {/* <Footer /> */}

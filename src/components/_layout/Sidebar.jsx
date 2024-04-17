@@ -88,6 +88,9 @@ export default function Sidebar() {
               <Link to={'/dashboard/addproduct'} className="block  w-full py-2 rounded-md">
                 Add Product
               </Link>
+              <Link to={'/dashboard/products'} className="block  w-full py-2 rounded-md">
+                View Products
+              </Link>
             </div>
           )}
         </li>
