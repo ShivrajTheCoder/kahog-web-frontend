@@ -6,6 +6,8 @@ export default function AudioBooksContainer() {
   const [audiobooks, setAudioBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [audiobooksPerPage] = useState(5); // Number of audiobooks per page
 
   useEffect(() => {
     const fetchAudioBooks = async () => {
@@ -27,6 +29,20 @@ export default function AudioBooksContainer() {
     fetchAudioBooks();
   }, []);
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete(`${apiUrl}/audioBooks/${id}`);
+      if (response.status === 200) {
+        setAudioBooks(audiobooks.filter(audiobook => audiobook.id !== id));
+      } else {
+        console.error('Failed to delete audiobook:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error deleting audiobook:', error);
+      setError(error.message);
+    }
+  };
+
   if (loading) {
     return <p className="text-center p-4">Loading...</p>;
   }
@@ -43,29 +59,69 @@ export default function AudioBooksContainer() {
     return `${day}-${month}-${year}`;
   };
 
+  // Logic for pagination
+  const indexOfLastAudiobook = currentPage * audiobooksPerPage;
+  const indexOfFirstAudiobook = indexOfLastAudiobook - audiobooksPerPage;
+  const currentAudioBooks = audiobooks.slice(indexOfFirstAudiobook, indexOfLastAudiobook);
+
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(audiobooks.length / audiobooksPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  const renderPagination = pageNumbers.map(number => (
+    <button
+      key={number}
+      className={`px-2 py-1 mr-2 ${currentPage === number ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-800'} rounded-md`}
+      onClick={() => setCurrentPage(number)}
+    >
+      {number}
+    </button>
+  ));
+
   return (
-    <div className="audiobooks container mx-auto p-4">
-      <h1 className="text-xl font-bold  mb-4">All Audiobooks</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {audiobooks.map((audiobook) => (
-          <div
-            key={audiobook.id}
-            className="audiobook-card bg-white rounded-lg shadow-md overflow-hidden flex flex-col"
-          >
-            <img
-              src="https://res.cloudinary.com/dushmacr8/image/upload/v1707575265/kj%20images/cover_2_bgvidc.jpg"
-              alt="Cover"
-              className="w-full h-48 object-cover"
-            />
-            <div className="audiobook-details p-4 flex-grow">
-              <h2 className="title text-xl font-bold">{audiobook.title}</h2>
-              <p className="description text-gray-700">{audiobook.description}</p>
-              <p className="date text-gray-500">{formatDate(audiobook.created_at)}</p>
-              {/* Add more audiobook details as needed */}
-              <button className="text-white font-semibold bg-green-500 py-2 w-full text-center rounded-md">Listen Now</button>
-            </div>
-          </div>
-        ))}
+    <div className="audiobooks-container p-10 bg-white">
+      <h1 className="text-xl font-bold mb-4 my-10">All Audiobooks</h1>
+      <table className="w-full border-collapse border border-gray-300">
+        <thead>
+          <tr className="bg-gray-50">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border border-gray-300">#</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border border-gray-300">Title</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border border-gray-300">Description</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border border-gray-300">Date</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border border-gray-300">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentAudioBooks.map((audiobook, index) => (
+            <tr key={audiobook.id} className={index % 2 === 0 ? "bg-gray-100" : ""}>
+              <td className="px-6 py-4 whitespace-nowrap border border-gray-300">{indexOfFirstAudiobook + index + 1}</td>
+              <td className="px-6 py-4 whitespace-nowrap border border-gray-300">{audiobook.title}</td>
+              <td className="px-6 py-4 whitespace-nowrap border border-gray-300">{audiobook.description}</td>
+              <td className="px-6 py-4 whitespace-nowrap border border-gray-300">{formatDate(audiobook.created_at)}</td>
+              <td className="px-6 py-4 whitespace-nowrap border border-gray-300">
+                <button className="text-white font-semibold bg-red-500 py-2 px-4 rounded-md" onClick={() => handleDelete(audiobook.id)}>Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="mt-5 flex justify-end">
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-2 py-1 mr-2 bg-gray-200 text-gray-800 rounded-md"
+        >
+          Previous
+        </button>
+        {renderPagination}
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === Math.ceil(audiobooks.length / audiobooksPerPage)}
+          className="px-2 py-1 ml-2 bg-gray-200 text-gray-800 rounded-md"
+        >
+          Next
+        </button>
       </div>
     </div>
   );

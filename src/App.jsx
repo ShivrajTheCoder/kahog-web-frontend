@@ -15,6 +15,8 @@ import AddInterestModal from './components/AdminComponents/Forms/AddInterestModa
 import AddCategoryModal from './components/AdminComponents/Forms/AddCategoryModal';
 import PostEventModal from './components/AdminComponents/Forms/PostEventModal';
 import PodcastContainer from './components/PodcastComponents/PodcastContainer'
+import EbooksContainer from './components/EbooksComponents/EbooksContainer'
+import AudioBooksContainer from './components/HomeComponents/AudioBooksContainer'
 
 export default function App() {
   return (
@@ -51,6 +53,8 @@ export default function App() {
           <Route path='/dashboard/addcategory' element={ <AddCategoryModal/>} />
           <Route path='/dashboard/addevents' element={ <PostEventModal/>} />
           <Route path='/dashboard/podcasts' element={ <PodcastContainer/>} />
+          <Route path='/dashboard/ebooks' element={ <EbooksContainer/>} />
+          <Route path='/dashboard/audiobooks' element={ <AudioBooksContainer/>} />
         </Route>
       </Routes>
       {/* <Footer /> */}

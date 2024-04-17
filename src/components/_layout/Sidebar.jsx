@@ -69,6 +69,12 @@ export default function Sidebar() {
               <Link to={'/dashboard/addaudiobook'} className="block  w-full py-2 rounded-md">
                 Upload Audiobook
               </Link>
+              <Link to={'/dashboard/ebooks'} className="block  w-full py-2 rounded-md">
+                View Ebooks
+              </Link>
+              <Link to={'/dashboard/audiobooks'} className="block  w-full py-2 rounded-md">
+                View Audiobooks
+              </Link>
             </div>
           )}
         </li>

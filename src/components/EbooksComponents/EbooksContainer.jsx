@@ -6,6 +6,8 @@ export default function EbooksContainer() {
   const [ebooks, setEbooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ebooksPerPage] = useState(5); // Number of ebooks per page
 
   useEffect(() => {
     const fetchEbooks = async () => {
@@ -27,6 +29,20 @@ export default function EbooksContainer() {
     fetchEbooks();
   }, []);
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete(`${apiUrl}/ebooks/${id}`);
+      if (response.status === 200) {
+        setEbooks(ebooks.filter(ebook => ebook.id !== id));
+      } else {
+        console.error('Failed to delete ebook:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error deleting ebook:', error);
+      setError(error.message);
+    }
+  };
+
   if (loading) {
     return <p className="text-center p-4">Loading...</p>;
   }
@@ -43,26 +59,69 @@ export default function EbooksContainer() {
     return `${day}-${month}-${year}`;
   };
 
+  // Logic for pagination
+  const indexOfLastEbook = currentPage * ebooksPerPage;
+  const indexOfFirstEbook = indexOfLastEbook - ebooksPerPage;
+  const currentEbooks = ebooks.slice(indexOfFirstEbook, indexOfLastEbook);
+
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(ebooks.length / ebooksPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  const renderPagination = pageNumbers.map(number => (
+    <button
+      key={number}
+      className={`px-2 py-1 mr-2 ${currentPage === number ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-800'} rounded-md`}
+      onClick={() => setCurrentPage(number)}
+    >
+      {number}
+    </button>
+  ));
+
   return (
-    <div className="ebooks-container">
-      <h1 className="text-xl font-bold  mb-4 my-10">All Ebooks</h1>  {/* Added heading */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-        {ebooks.map((ebook) => (
-          <div key={ebook.id} className="ebook-card bg-white rounded-lg shadow-md overflow-hidden">
-            <img
-              src="https://res.cloudinary.com/dushmacr8/image/upload/v1707575265/kj%20images/cover_2_bgvidc.jpg"
-              alt="Cover"
-              className="w-full h-48 object-cover"
-            />
-            <div className="ebook-details p-4">
-              <h2 className="title text-xl font-bold">{ebook.title}</h2>
-              <p className="description text-gray-700">{ebook.description}</p>
-              <p className="date text-gray-500">{formatDate(ebook.created_at)}</p>
-              {/* Add more ebook details as needed */}
-              <button className="bg-green-500 text-center w-full py-2 text-white font-semibold text-lg rounded-md">Read Now</button>
-            </div>
-          </div>
-        ))}
+    <div className="ebooks-container p-10">
+      <h1 className="text-xl font-bold mb-4 my-10">All Ebooks</h1>
+      <table className="w-full divide-y divide-gray-200 border border-gray-300">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SNo.</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {currentEbooks.map((ebook, index) => (
+            <tr key={ebook.id}>
+              <td className="px-6 py-4 whitespace-nowrap border">{indexOfFirstEbook + index + 1}</td>
+              <td className="px-6 py-4 whitespace-nowrap border">{ebook.title}</td>
+              <td className="px-6 py-4 whitespace-nowrap border">{ebook.description}</td>
+              <td className="px-6 py-4 whitespace-nowrap border">{formatDate(ebook.created_at)}</td>
+              <td className="px-6 py-4 whitespace-nowrap border">
+                <button className="bg-red-500 text-white px-4 py-2 rounded-md" onClick={() => handleDelete(ebook.id)}>Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="mt-5 flex justify-end">
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-2 py-1 mr-2 bg-gray-200 text-gray-800 rounded-md"
+        >
+          Previous
+        </button>
+        {renderPagination}
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === Math.ceil(ebooks.length / ebooksPerPage)}
+          className="px-2 py-1 ml-2 bg-gray-200 text-gray-800 rounded-md"
+        >
+          Next
+        </button>
       </div>
     </div>
   );
