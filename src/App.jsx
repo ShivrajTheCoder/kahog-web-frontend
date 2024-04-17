@@ -27,7 +27,7 @@ export default function App() {
     <BrowserRouter>
       {/* <UserNavbar /> */}
       <Routes>
-        <Route path='/' element={<Home />} />
+        {/* <Route path='/' element={<Home />} /> */}
         {/* <Route path='/podcasts' element={<Podcasts />} />
         <Route path='/ebooks' element={<Ebooks />} />
         <Route path='/audiobooks' element={<Audiobooks />} />
@@ -43,7 +43,7 @@ export default function App() {
         <Route path='/creatorstudio' element={<CreatorStudio />} />
         <Route path='/uploadcontent/:channelId' element={<UploadContent />} />
         // <Route path='/live' element={<Live />} /> */}
-        <Route path='/adminlogin' element={<Login />} />
+        <Route path='/' element={<Login />} />
         <Route path='/dashboard' element={<Dashboard />} >
           <Route index element={<DashboardHome />} />
           <Route path='/dashboard/addpodcast' element={<UploadPodcastModal />} />

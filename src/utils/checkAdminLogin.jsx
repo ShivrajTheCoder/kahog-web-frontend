@@ -19,7 +19,7 @@ export function checkAdminLogin() {
       dispatch(adminLogin({ userId, token,isAdmin }));
     } else if (!admin?.token && !admin?.userId && !localAdminStr) {
       // console.log("i ran naviagte")
-      navigate("/adminlogin"); 
+      navigate("/"); 
     }
     else{
       console.log("nothing")
