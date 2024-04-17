@@ -5,7 +5,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import Input from '../../Input';
 import Textarea from '../../Textarea';
 
-export default function AddKaryashalaModal({ onClose }) {
+export default function AddKaryashalaModal() {
     const [mediaFile, setMediaFile] = useState(null);
     const [mediaType, setMediaType] = useState('audio'); // Default to audio
     const [thumbnailFile, setThumbnailFile] = useState(null);
@@ -56,11 +56,9 @@ export default function AddKaryashalaModal({ onClose }) {
     };
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
-            <div className="bg-white p-8 rounded-md w-96 relative">
-                <button onClick={onClose} className="absolute top-2 right-2 text-gray-500 hover:text-black focus:outline-none">
-                    <AiOutlineClose size={24} />
-                </button>
+        <div >
+            <div className=" p-8 rounded-md w-96 ">
+                
                 <h2 className="text-xl font-semibold mb-1">Add Karyashala</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-1">

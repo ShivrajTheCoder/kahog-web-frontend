@@ -3,7 +3,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import Input from '../../Input';
 import axios from 'axios';
 
-export default function AddCategoryModal({ onClose }) {
+export default function AddCategoryModal() {
   const [name, setName] = useState('');
   // const [description, setDescription] = useState('');
   const [error, setError] = useState('');
@@ -33,11 +33,9 @@ export default function AddCategoryModal({ onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
-      <div className="bg-white p-8 rounded-md w-96 relative">
-        <button onClick={onClose} className="absolute top-2 right-2 text-gray-500 hover:text-black focus:outline-none">
-          <AiOutlineClose size={24} />
-        </button>
+    <div >
+      <div className=" p-8 rounded-md w-96 ">
+      
         <h2 className="text-xl font-semibold mb-4">Add Category</h2>
         <form onSubmit={handleSubmit}>
           <Input

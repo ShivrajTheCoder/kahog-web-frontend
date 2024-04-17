@@ -6,6 +6,14 @@ import DashboardHome from './screens/AdminScreens/DashboardHome'
 import UploadPodcastModal from './components/AdminComponents/Forms/UploadPodcastModal';
 import UploadEbookModal from './components/AdminComponents/Forms/UploadEbookModal';
 import UploadAudiobookModal from './components/AdminComponents/Forms/UploadAudiobookModal';
+import AddProduct from './components/AdminComponents/Forms/AddProduct'
+import AddKaryashalaModal from './components/AdminComponents/Forms/AddKaryashalaModal'
+import AddPathshalaModal from './components/AdminComponents/Forms/AddPathshalaModal'
+import AddCircleModal from './components/AdminComponents/Forms/AddCircleModal'
+import AddCommunityModal from './components/AdminComponents/Forms/AddCommunityModal'
+import AddInterestModal from './components/AdminComponents/Forms/AddInterestModal';
+import AddCategoryModal from './components/AdminComponents/Forms/AddCategoryModal';
+import PostEventModal from './components/AdminComponents/Forms/PostEventModal';
 
 export default function App() {
   return (
@@ -33,6 +41,14 @@ export default function App() {
           <Route path='/dashboard/addpodcast' element={ <UploadPodcastModal/>} />
           <Route path='/dashboard/addebook' element={ <UploadEbookModal/>} />
           <Route path='/dashboard/addaudiobook' element={ <UploadAudiobookModal/>} />
+          <Route path='/dashboard/addproduct' element={ <AddProduct/>} />
+          <Route path='/dashboard/addkaryashala' element={ <AddKaryashalaModal/>} />
+          <Route path='/dashboard/addpathshala' element={ <AddPathshalaModal/>} />
+          <Route path='/dashboard/addcommunity' element={ <AddCommunityModal/>} />
+          <Route path='/dashboard/addcircle' element={ <AddCircleModal/>} />
+          <Route path='/dashboard/addinterest' element={ <AddInterestModal/>} />
+          <Route path='/dashboard/addcategory' element={ <AddCategoryModal/>} />
+          <Route path='/dashboard/addevents' element={ <PostEventModal/>} />
         </Route>
       </Routes>
       {/* <Footer /> */}
