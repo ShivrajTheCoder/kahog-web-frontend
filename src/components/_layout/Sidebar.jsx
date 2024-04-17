@@ -133,6 +133,12 @@ export default function Sidebar() {
               <Link to={'/dashboard/addevents'} className="block  w-full py-2 rounded-md">
                 Post Event
               </Link>
+              <Link to={'/dashboard/channels'} className="block  w-full py-2 rounded-md">
+                Channel Requests
+              </Link>
+              <Link to={'/dashboard/lives'} className="block  w-full py-2 rounded-md">
+                Live Requests
+              </Link>
             </div>
           )}
         </li>

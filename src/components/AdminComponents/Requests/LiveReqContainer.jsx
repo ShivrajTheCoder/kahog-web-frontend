@@ -3,6 +3,8 @@ import LiveCard from './LiveCard';
 
 export default function LiveReqContainer() {
   const [liveRequests, setLiveRequests] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [requestsPerPage] = useState(5); // Number of requests per page
 
   useEffect(() => {
     // Dummy data for demonstration
@@ -28,30 +30,18 @@ export default function LiveReqContainer() {
     setLiveRequests(dummyData);
   }, []);
 
-  const handleApprove = (id) => {
-    // Implement approve logic here
-    console.log("Approved live request with ID:", id);
-  };
+  // Get current requests
+  const indexOfLastRequest = currentPage * requestsPerPage;
+  const indexOfFirstRequest = indexOfLastRequest - requestsPerPage;
+  const currentRequests = liveRequests.slice(indexOfFirstRequest, indexOfLastRequest);
 
-  const handleDisapprove = (id) => {
-    // Implement disapprove logic here
-    console.log("Disapproved live request with ID:", id);
-  };
-
-  const handleStartTimeChange = (id, newStartTime) => {
-    // Implement logic to update start time
-    console.log("Updated start time for live request with ID:", id, "to", newStartTime);
-  };
-
-  const handleEndTimeChange = (id, newEndTime) => {
-    // Implement logic to update end time
-    console.log("Updated end time for live request with ID:", id, "to", newEndTime);
-  };
+  // Change page
+  const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
-    <div className='my-4'>
-      {/* <h1>Live Requests</h1> */}
-      <table className="table-auto w-full">
+    <div className='py-10 px-10'>
+      <h1 className='my-3 font-bold text-xl'>Live Requests</h1>
+      <table className="table-auto w-full bg-white">
         <thead>
           <tr>
             <th className="border px-4 py-2">Creator ID</th>
@@ -62,11 +52,23 @@ export default function LiveReqContainer() {
           </tr>
         </thead>
         <tbody>
-          {liveRequests.map(request => (
+          {currentRequests.map(request => (
             <LiveCard key={request.id} request={request} />
           ))}
         </tbody>
       </table>
+      {/* Pagination */}
+      <div className="flex justify-center mt-4">
+        {liveRequests.length > requestsPerPage && (
+          <ul className="flex">
+            {[...Array(Math.ceil(liveRequests.length / requestsPerPage)).keys()].map(number => (
+              <li key={number} className="mx-1">
+                <button onClick={() => paginate(number + 1)} className="px-3 py-1 bg-blue-500 text-white rounded-md focus:outline-none">{number + 1}</button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

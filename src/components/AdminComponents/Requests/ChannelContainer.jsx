@@ -3,7 +3,10 @@ import React, { useState, useEffect } from 'react';
 
 export default function ChannelContainer() {
   const [channels, setChannels] = useState([]);
-  const apiUrl=import.meta.env.VITE_API_URL;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [channelsPerPage] = useState(5); // Number of channels per page
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     // Dummy data for demonstration
     const dummyData = [
@@ -28,22 +31,30 @@ export default function ChannelContainer() {
     setChannels(dummyData);
   }, []);
 
-  const handleApprove = async(id) => {
+  // Get current channels
+  const indexOfLastChannel = currentPage * channelsPerPage;
+  const indexOfFirstChannel = indexOfLastChannel - channelsPerPage;
+  const currentChannels = channels.slice(indexOfFirstChannel, indexOfLastChannel);
+
+  // Change page
+  const paginate = pageNumber => setCurrentPage(pageNumber);
+
+  const handleApprove = async (id) => {
     // Implement approve logic here
-    try{
+    try {
       //change channel id
-      const resp=await axios.put(`${apiUrl}/channels/approvechannel/1`,{
-        isApproved:true
+      const resp = await axios.put(`${apiUrl}/channels/approvechannel/1`, {
+        isApproved: true
       });
       console.log(resp);
-      if(resp.status===200){
+      if (resp.status === 200) {
         console.log(resp.data);
       }
-      else{
+      else {
         alert("Something went wrong");
       }
     }
-    catch(error){
+    catch (error) {
       alert(error);
     }
     // console.log("Approved channel with ID:", id);
@@ -55,9 +66,9 @@ export default function ChannelContainer() {
   };
 
   return (
-    <div className='w-full mt-4'>
-      {/* <h1>Channels</h1> */}
-      <table className="table-auto w-full">
+    <div className='w-full mx-10'>
+      <h1 className="text-2xl font-bold mb-4">Channels</h1>
+      <table className="table-auto w-full bg-white ">
         <thead>
           <tr>
             <th className="border px-4 py-2">Channel Name</th>
@@ -68,7 +79,7 @@ export default function ChannelContainer() {
           </tr>
         </thead>
         <tbody>
-          {channels.map(channel => (
+          {currentChannels.map(channel => (
             <tr key={channel.id}>
               <td className="border px-4 py-2">{channel.channelName}</td>
               <td className="border px-4 py-2 max-w-xs overflow-hidden">{channel.description}</td>
@@ -82,6 +93,18 @@ export default function ChannelContainer() {
           ))}
         </tbody>
       </table>
+      {/* Pagination */}
+      <div className="flex justify-center mt-4">
+        {channels.length > channelsPerPage && (
+          <ul className="flex">
+            {[...Array(Math.ceil(channels.length / channelsPerPage)).keys()].map(number => (
+              <li key={number} className="mx-1">
+                <button onClick={() => paginate(number + 1)} className="px-3 py-1 bg-blue-500 text-white rounded-md focus:outline-none">{number + 1}</button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

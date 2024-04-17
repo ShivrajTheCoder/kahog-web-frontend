@@ -21,6 +21,8 @@ import ProductsContainer from './components/EcommerceComponents/ProductsContaine
 import Karyashala from './screens/OriginalsScreen.jsx/Karyashala'
 import Pathshala from './screens/OriginalsScreen.jsx/Pathshala'
 import Login from './screens/Auth/Login'
+import ChannelContainer from './components/AdminComponents/Requests/ChannelContainer'
+import LiveReqContainer from './components/AdminComponents/Requests/LiveReqContainer'
 
 export default function App() {
   return (
@@ -63,6 +65,8 @@ export default function App() {
           <Route path='/dashboard/products' element={<ProductsContainer />} />
           <Route path='/dashboard/karyashala' element={<Karyashala />} />
           <Route path='/dashboard/pathshala' element={<Pathshala />} />
+          <Route path='/dashboard/channels' element={<ChannelContainer />} />
+          <Route path='/dashboard/lives' element={<LiveReqContainer />} />
         </Route>
       </Routes>
       {/* <Footer /> */}
