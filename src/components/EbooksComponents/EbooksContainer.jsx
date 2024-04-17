@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export default function EbooksContainer() {
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -8,7 +9,7 @@ export default function EbooksContainer() {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [ebooksPerPage] = useState(5); // Number of ebooks per page
-
+  const { token } = useSelector((state) => state.admin);
   useEffect(() => {
     const fetchEbooks = async () => {
       try {
@@ -31,15 +32,21 @@ export default function EbooksContainer() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`${apiUrl}/ebooks/${id}`);
+      const response = await axios.delete(`${apiUrl}/ebooks/deleteebook/${id}`,
+      {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      });
       if (response.status === 200) {
         setEbooks(ebooks.filter(ebook => ebook.id !== id));
       } else {
         console.error('Failed to delete ebook:', response.statusText);
+        alert("Couldn't delete")
       }
     } catch (error) {
       console.error('Error deleting ebook:', error);
-      setError(error.message);
+      alert("Couldn't delete")
     }
   };
 
