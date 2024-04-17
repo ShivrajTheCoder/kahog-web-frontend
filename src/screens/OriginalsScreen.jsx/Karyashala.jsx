@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export default function Karyashala() {
   const [karyashalas, setKaryashalas] = useState([]);
@@ -8,7 +9,7 @@ export default function Karyashala() {
   const [currentPage, setCurrentPage] = useState(1);
   const [karyashalasPerPage] = useState(5); // Number of karyashalas per page
   const apiUrl = import.meta.env.VITE_API_URL;
-
+  const { token } = useSelector((state) => state.admin);
   useEffect(() => {
     const fetchKaryashalas = async () => {
       try {
@@ -34,11 +35,30 @@ export default function Karyashala() {
     pageNumbers.push(i);
   }
 
-  const handleDeleteKaryashala = (id) => {
-    // Implement delete logic here
-    console.log(`Deleting karyashala with ID: ${id}`);
-    // You can send an HTTP request to delete the karyashala with the specified ID
-  };
+  const handleDeleteKaryashala = async (id) => {
+    try {
+        // Assuming there's an endpoint to delete a karyashalas by its ID
+        const response = await axios.delete(`${apiUrl}/karyashala/deletekaryashala/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+        // Remove the deleted karyashalas from the state
+        console.log(response);
+        if(response.status===200){
+
+          setKaryashalas(karyashalas.filter(karyashalas => karyashalas.id !== id));
+        }
+        else{
+            alert("Could'nt delete")
+        }
+    } catch (error) {
+        console.error(error);
+        // setError('Failed to delete karyashalas');
+        alert("could'nt delete podcasts");
+    }
+};
 
   const renderPagination = pageNumbers.map(number => (
     <button

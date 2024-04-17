@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export default function Pathshala() {
   const [pathshalas, setPathshalas] = useState([]);
@@ -8,7 +9,7 @@ export default function Pathshala() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pathshalasPerPage] = useState(5); // Number of pathshalas per page
   const apiUrl = import.meta.env.VITE_API_URL;
-
+  const { token } = useSelector((state) => state.admin);
   useEffect(() => {
     const fetchPathshalas = async () => {
       try {
@@ -34,11 +35,30 @@ export default function Pathshala() {
     pageNumbers.push(i);
   }
 
-  const handleDeletePathshala = (id) => {
-    // Implement delete logic here
-    console.log(`Deleting pathshala with ID: ${id}`);
-    // You can send an HTTP request to delete the pathshala with the specified ID
-  };
+  const handleDeletePathshala = async (id) => {
+    try {
+        // Assuming there's an endpoint to delete a pathshalas by its ID
+        const response = await axios.delete(`${apiUrl}/pathshala/deletepathshala/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+        // Remove the deleted pathshalas from the state
+        console.log(response);
+        if(response.status===200){
+
+          setPathshalas(pathshalas.filter(pathshalas => pathshalas.id !== id));
+        }
+        else{
+            alert("Could'nt delete")
+        }
+    } catch (error) {
+        console.error(error);
+        // setError('Failed to delete pathshalas');
+        alert("could'nt delete pathshala");
+    }
+};
 
   const renderPagination = pageNumbers.map(number => (
     <button
