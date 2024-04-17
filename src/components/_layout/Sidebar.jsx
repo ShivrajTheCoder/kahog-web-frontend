@@ -49,6 +49,9 @@ export default function Sidebar() {
               <Link to={'/dashboard/addcategory'} className="block  w-full py-2 rounded-md">
                 Add Category
               </Link>
+              <Link to={'/dashboard/podcasts'} className="block  w-full py-2 rounded-md">
+                View Podcasts
+              </Link>
               {/* Add more options here */}
             </div>
           )}

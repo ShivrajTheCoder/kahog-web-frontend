@@ -50,16 +50,8 @@ export default function DashboardHome() {
             <h3 className='text-lg font-semibold text-blue-400'>Orders</h3>
             <div className='my-3 font-bold text-xl text-gray-400'>13</div>
           </div>
-          <FaVideo size={50} color='#adb5bd' />
-        </div>
-        <div className='flex items-center rounded-md shadow-md bg-white p-5 w-full border-l-4 border-blue-400'>
-          <div className=' flex flex-col mr-5 w-full'>
-            <h3 className='text-lg font-semibold text-blue-400'>Total Videos</h3>
-            <div className='my-3 font-bold text-xl text-gray-400'>13</div>
-          </div>
           <FaShoppingCart size={50} color='#adb5bd' />
         </div>
-        
       </section>
     </div>
   )

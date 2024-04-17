@@ -6,6 +6,8 @@ export default function PodcastContainer() {
     const [podcasts, setPodcasts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [podcastsPerPage] = useState(5); // Number of podcasts per page
     const apiUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
@@ -14,7 +16,6 @@ export default function PodcastContainer() {
 
             try {
                 const response = await axios.get(`${apiUrl}/podcasts/getpodcastsbycategory/${categoryId}`);
-                // console.log(response.data.podcasts, 'here are podcasts');
                 setPodcasts(response.data.podcasts);
             } catch (error) {
                 console.error(error);
@@ -27,36 +28,99 @@ export default function PodcastContainer() {
         fetchPodcasts();
     }, [categoryId]); // Re-fetch on category ID change
 
+    const handleDelete = async (id) => {
+        try {
+            // Assuming there's an endpoint to delete a podcast by its ID
+            await axios.delete(`${apiUrl}/podcasts/${id}`);
+            // Remove the deleted podcast from the state
+            setPodcasts(podcasts.filter(podcast => podcast.id !== id));
+        } catch (error) {
+            console.error(error);
+            setError('Failed to delete podcast');
+        }
+    };
+
+    // Logic for pagination
+    const indexOfLastPodcast = currentPage * podcastsPerPage;
+    const indexOfFirstPodcast = indexOfLastPodcast - podcastsPerPage;
+    const currentPodcasts = podcasts.slice(indexOfFirstPodcast, indexOfLastPodcast);
+
     const renderPodcasts = () => {
         if (loading) {
-            return <div className="text-center p-4">Loading podcasts...</div>;
+            return <tr><td colSpan="5" className="text-center p-4">Loading podcasts...</td></tr>;
         }
 
         if (error) {
-            return <div className="text-center p-4 text-red-500">Error: {error}</div>;
+            return <tr><td colSpan="5" className="text-center p-4 text-red-500">Error: {error}</td></tr>;
         }
 
-        if (!podcasts.length) {
-            return <div className="text-center p-4">No podcasts found in this category.</div>; // Handle empty category
+        if (!currentPodcasts.length) {
+            return <tr><td colSpan="5" className="text-center p-4">No podcasts found in this category.</td></tr>; // Handle empty category
         }
 
-        return podcasts.map((podcast) => (
-            <div key={podcast.id} className="podcast-card p-4 mb-4 shadow-md rounded-lg">
-                <img src="https://media.istockphoto.com/id/1432904272/photo/teenager-boy-recording-podcast-at-home.jpg?s=1024x1024&w=is&k=20&c=ApF-6nIjvXt_i1sAuy4dLNXV-5Hag70SikownEXubUo=" alt={podcast.name}  />
-                <h2 className="text-xl font-bold mb-2">{podcast.name}</h2>
-                <h2 className="text-lg mb-2">Satish Kumar</h2>
-                <p className="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corrupti dolorum voluptate ab laudantium modi, tenetur sint nemo fugit, porro ratione assumenda, nesciunt soluta eaque exercitationem! Modi, molestias. Ex, consequuntur ipsam!</p>
-                <button className='w-full bg-red-600 text-white text-lg font-bold py-2 rounded-md'>Listen Now</button>
-            </div>
+        return currentPodcasts.map((podcast, index) => (
+            <tr key={podcast.id}>
+                <td className="px-4 py-2 text-center border">{indexOfFirstPodcast + index + 1}</td>
+                <td className="px-4 py-2 text-center border">{podcast.name}</td>
+                <td className="px-4 py-2 text-center border">Satish</td>
+                <td className="px-4 py-2 text-center border">{podcast.description.slice(0, 50)}...</td>
+                <td className="px-4 py-2 text-center border">
+                    <button className='bg-red-600 text-white text-sm font-bold py-1 px-2 rounded-md' onClick={() => handleDelete(podcast.id)}>Delete</button>
+                </td>
+            </tr>
         ));
     };
 
+    // Logic for pagination controls
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(podcasts.length / podcastsPerPage); i++) {
+        pageNumbers.push(i);
+    }
+
+    const renderPagination = pageNumbers.map(number => (
+        <button
+            key={number}
+            className={`px-2 py-1 mr-2 ${currentPage === number ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-800'} rounded-md`}
+            onClick={() => setCurrentPage(number)}
+        >
+            {number}
+        </button>
+    ));
+
     return (
-        <div className='my-10' >
+        <div className='py-10 px-10'>
             <h1 className='text-xl font-bold my-5'>Podcasts for All</h1>
-            <section className="grid grid-cols-3 gap-12 ">
-                {renderPodcasts()}
-            </section>
+            <table className="w-full border-collapse border border-gray-400">
+                <thead className="bg-gray-50">
+                    <tr>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Serial No</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Podcast Name</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Creator Name</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Description</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border">Actions</th>
+                    </tr>
+                </thead>
+                <tbody className="bg-white">
+                    {renderPodcasts()}
+                </tbody>
+            </table>
+            <div className="mt-5 flex justify-end">
+                <button
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="px-2 py-1 mr-2 bg-gray-200 text-gray-800 rounded-md"
+                >
+                    Previous
+                </button>
+                {renderPagination}
+                <button
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                    disabled={currentPage === Math.ceil(podcasts.length / podcastsPerPage)}
+                    className="px-2 py-1 ml-2 bg-gray-200 text-gray-800 rounded-md"
+                >
+                    Next
+                </button>
+            </div>
         </div>
     );
 }

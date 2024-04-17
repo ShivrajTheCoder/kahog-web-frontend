@@ -14,6 +14,7 @@ import AddCommunityModal from './components/AdminComponents/Forms/AddCommunityMo
 import AddInterestModal from './components/AdminComponents/Forms/AddInterestModal';
 import AddCategoryModal from './components/AdminComponents/Forms/AddCategoryModal';
 import PostEventModal from './components/AdminComponents/Forms/PostEventModal';
+import PodcastContainer from './components/PodcastComponents/PodcastContainer'
 
 export default function App() {
   return (
@@ -49,6 +50,7 @@ export default function App() {
           <Route path='/dashboard/addinterest' element={ <AddInterestModal/>} />
           <Route path='/dashboard/addcategory' element={ <AddCategoryModal/>} />
           <Route path='/dashboard/addevents' element={ <PostEventModal/>} />
+          <Route path='/dashboard/podcasts' element={ <PodcastContainer/>} />
         </Route>
       </Routes>
       {/* <Footer /> */}
