@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export default function PodcastContainer() {
     const [categoryId, setCategoryId] = useState(6);
@@ -9,7 +10,7 @@ export default function PodcastContainer() {
     const [currentPage, setCurrentPage] = useState(1);
     const [podcastsPerPage] = useState(5); // Number of podcasts per page
     const apiUrl = import.meta.env.VITE_API_URL;
-
+    const { token } = useSelector((state) => state.admin);
     useEffect(() => {
         const fetchPodcasts = async () => {
             setError(null); // Clear any previous error
@@ -31,12 +32,25 @@ export default function PodcastContainer() {
     const handleDelete = async (id) => {
         try {
             // Assuming there's an endpoint to delete a podcast by its ID
-            await axios.delete(`${apiUrl}/podcasts/${id}`);
+            const response = await axios.delete(`${apiUrl}/podcasts/deletepodcast/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
             // Remove the deleted podcast from the state
-            setPodcasts(podcasts.filter(podcast => podcast.id !== id));
+            console.log(response);
+            if(response.status===200){
+
+                setPodcasts(podcasts.filter(podcast => podcast.id !== id));
+            }
+            else{
+                alert("Could'nt delete")
+            }
         } catch (error) {
             console.error(error);
-            setError('Failed to delete podcast');
+            // setError('Failed to delete podcast');
+            alert("could'nt delete podcasts");
         }
     };
 
