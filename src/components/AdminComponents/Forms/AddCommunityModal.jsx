@@ -12,8 +12,9 @@ export default function AddCommunityModal() {
   const [interests, setInterests] = useState([]);
   const [loading, setLoading] = useState(true);
   const apiUrl = import.meta.env.VITE_API_URL;
-
+  const { token } = useSelector((state) => state.admin);
   useEffect(() => {
+    setError(null);
     const fetchInterests = async () => {
       try {
         const response = await axios.get(`${apiUrl}/interests/getallinterests`);
@@ -30,7 +31,7 @@ export default function AddCommunityModal() {
       }
     };
     fetchInterests();
-  }, []);
+  }, [token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,22 +47,29 @@ export default function AddCommunityModal() {
       interestId,
     };
     try {
-      const response = await axios.post(`${apiUrl}/communities/addcommunity`, formData);
+      const response = await axios.post(`${apiUrl}/communities/addcommunity`, formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       console.log(response);
       if (response.status === 201) {
-        onClose();
+        // onClose();
+        alert("Community created")
       } else {
-        console.log("Something went wrong!");
+        alert("Something went wrong!");
       }
     } catch (error) {
       console.log(error);
+      alert("Something went wrong!");
     }
   };
 
   return (
     <div>
       <div className=" p-8 rounded-md w-96 ">
-        
+
         <h2 className="text-xl font-semibold mb-4">Add Community</h2>
         {loading ? (
           <p>Loading interests...</p>

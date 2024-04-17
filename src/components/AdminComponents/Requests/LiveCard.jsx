@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export default function LiveCard({ request }) {
     const [startTime, setStartTime] = useState(request.startTime);
@@ -10,7 +11,7 @@ export default function LiveCard({ request }) {
         setStartTime(newStartTime);
         // You can perform additional logic here if needed
     };
-
+    const { token } = useSelector((state) => state.admin);
     const handleEndTimeChange = (e) => {
         const newEndTime = e.target.value;
         setEndTime(newEndTime);
@@ -35,6 +36,11 @@ export default function LiveCard({ request }) {
                     startTime: startTime,
                     endTime: endTime,
                     startDate: request.date,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
                 });
                 console.log(resp.data);
             } catch (error) {

@@ -6,16 +6,25 @@ import { FaBook } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export default function DashboardHome() {
   const [info, setInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const apiUrl=import.meta.env.VITE_API_URL;  
+  const apiUrl=import.meta.env.VITE_API_URL; 
+  const {token}=useSelector((state)=>state.admin);
   useEffect(() => {
+    setError(null);
     const fetchDashInfo = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/others/getdashinfo`); // Assuming the API endpoint is '/api/dashinfo'
+        console.log(token);
+        const response = await axios.get(`${apiUrl}/others/getdashinfo`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }); // Assuming the API endpoint is '/api/dashinfo'
         setInfo(response.data.dashInfo);
         setLoading(false);
       } catch (error) {
@@ -25,7 +34,7 @@ export default function DashboardHome() {
     };
 
     fetchDashInfo();
-  }, []);
+  }, [token]);
 
   return (
     <div className='px-20 py-10'>

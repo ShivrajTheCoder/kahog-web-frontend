@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import Input from '../../Input';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export default function AddProduct() {
   const [categories, setCategories] = useState([]);
@@ -14,7 +15,7 @@ export default function AddProduct() {
   const [image, setImage] = useState(null);
   const [error, setError] = useState('');
   const apiUrl = import.meta.env.VITE_API_URL;
-
+  const { token } = useSelector((state) => state.admin);
   useEffect(() => {
     setError(null);
 
@@ -59,18 +60,24 @@ export default function AddProduct() {
     formData.append('categoryId', categoryId); // Append category ID to form data
     formData.append('image', image);
     try {
-      const response = await axios.post(`${apiUrl}/shop/addproduct`, formData);
+      const response = await axios.post(`${apiUrl}/shop/addproduct`, formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       console.log(response);
       if (response.status === 200) {
 
-        onClose();
+        alert("sucess")
       }
       else {
         setError("Something went wrong");
+        alert("Something went wrong!");
       }
     } catch (error) {
       setError("Something went wrong!");
-      console.log(error);
+      alert("Something went wrong!");
     }
     // onClose();
   };
@@ -78,7 +85,7 @@ export default function AddProduct() {
   return (
     <div className=" ">
       <div className=" p-8 rounded-md w-96">
-  
+
         <h2 className="text-xl font-semibold mb-4">Add Product</h2>
         <form onSubmit={handleSubmit}>
           <Input

@@ -3,12 +3,13 @@ import { AiOutlineClose } from 'react-icons/ai';
 import Input from '../../Input';
 import Textarea from '../../Textarea'; // Import your custom Textarea component
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export default function AddInterestModal() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState(''); // State for description
   const [error, setError] = useState('');
-
+  const {token}=useSelector((state)=>state.admin);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -23,11 +24,18 @@ export default function AddInterestModal() {
       description // Include description in formData
     };
     try {
-      const response = await axios.post(`${apiUrl}/interests/addinterest`, formData);
+      const response = await axios.post(`${apiUrl}/interests/addinterest`, formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       console.log(response.data);
-      onClose();
+      alert("Interest added");
+      // onClose();
     } catch (error) {
       console.log(error.response.data.message);
+      alert("Interst coundn't be added")
     }
     onClose();
   };

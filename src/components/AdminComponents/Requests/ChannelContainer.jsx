@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 export default function ChannelContainer() {
   const [channels, setChannels] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [channelsPerPage] = useState(5); // Number of channels per page
   const apiUrl = import.meta.env.VITE_API_URL;
-
+  const { token } = useSelector((state) => state.admin);
   useEffect(() => {
     // Dummy data for demonstration
     const dummyData = [
@@ -45,7 +46,12 @@ export default function ChannelContainer() {
       //change channel id
       const resp = await axios.put(`${apiUrl}/channels/approvechannel/1`, {
         isApproved: true
-      });
+      },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       console.log(resp);
       if (resp.status === 200) {
         console.log(resp.data);

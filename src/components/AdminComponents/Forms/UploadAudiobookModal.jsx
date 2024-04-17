@@ -3,6 +3,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import Textarea from '../../Textarea'; // Import your custom Textarea component
 import axios from 'axios';
 import Input from '../../Input';
+import { useSelector } from 'react-redux';
 
 export default function UploadAudiobookModal() {
   const [name, setName] = useState('');
@@ -15,7 +16,7 @@ export default function UploadAudiobookModal() {
   const [loading, setLoading] = useState(true);
   const [catError, setCatError] = useState(null);
   const apiUrl = import.meta.env.VITE_API_URL;
-
+  const { token } = useSelector((state) => state.admin);
   useEffect(() => {
     setError(null);
 
@@ -48,7 +49,7 @@ export default function UploadAudiobookModal() {
     setCoverImage(selectedCoverImage);
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Validate form fields
     if (!name || !description || !audioFile || !coverImage || !category) {
@@ -63,17 +64,24 @@ export default function UploadAudiobookModal() {
     formData.append('cover', coverImage);
     formData.append('categoryId', category);
     try {
-      const response = await axios.post(`${apiUrl}/audiobooks/addaudiobook`, formData);
+      const response = await axios.post(`${apiUrl}/audiobooks/addaudiobook`, formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       console.log(response);
       if (response.status === 201) {
-        onClose();
+        alert("Successfully added")
 
       }
       else {
         console.log("Something went wrong!");
+        alert("Something went wrong!");
       }
     } catch (error) {
       console.log(error);
+      alert("Something went wrong!");
     }
     // onClose();
   };

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { AiOutlineClose } from 'react-icons/ai';
 import Input from '../../Input';
 import Textarea from '../../Textarea';
+import { useSelector } from 'react-redux';
 
 export default function AddKaryashalaModal() {
     const [mediaFile, setMediaFile] = useState(null);
@@ -13,6 +14,7 @@ export default function AddKaryashalaModal() {
     const [description, setDescription] = useState('');
     const [error, setError] = useState('');
     const apiUrl = import.meta.env.VITE_API_URL;
+    const {token}=useSelector((state)=>state.admin);
     const handleMediaFileChange = (e) => {
         const selectedFile = e.target.files[0];
         setMediaFile(selectedFile);
@@ -41,17 +43,21 @@ export default function AddKaryashalaModal() {
         try {
             const response = await axios.post(`${apiUrl}/karyashala/addkaryashala`, formData, {
                 headers: {
+                    Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
                 }
             });
             console.log(response);
             if (response.status === 201) {
-                onClose();
+                alert("Successfully added")
+                // onClose();
             } else {
                 console.log("Something went wrong!");
+                alert("Something went wrong!");
             }
         } catch (error) {
             console.log(error);
+            alert("Something went wrong!");
         }
     };
 

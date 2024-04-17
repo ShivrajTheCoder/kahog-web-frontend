@@ -3,6 +3,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import Textarea from '../../Textarea'; // Import your custom Textarea component
 import Input from '../../Input';
 import axios from 'axios'; // Import axios
+import { useSelector } from 'react-redux';
 
 export default function PostEventModal() {
   const [eventType, setEventType] = useState('audio');
@@ -11,6 +12,7 @@ export default function PostEventModal() {
   const [file, setFile] = useState(null);
   const [error, setError] = useState('');
   const apiUrl = import.meta.env.VITE_API_URL;
+  const {token}=useSelector((state)=>state.admin);
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
@@ -40,15 +42,22 @@ export default function PostEventModal() {
     formData.append('description', description);
     formData.append('event', file);
     try {
-      const response = await axios.post(`${apiUrl}/events/addevent`, formData);
+      const response = await axios.post(`${apiUrl}/events/addevent`, formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(response);
       if (response.status === 201) {
-        onClose();
+        alert("Successfully added")
       } else {
         console.log("Something went wrong!");
+        alert("Something went wrong!");
       }
     } catch (error) {
       console.log(error);
+      alert("Something went wrong!");
     }
   };
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import Input from '../../Input';
+import { useSelector } from 'react-redux';
 
 export default function AddCircleModal() {
   const [name, setName] = useState('');
@@ -10,8 +11,9 @@ export default function AddCircleModal() {
   const [img, setImg] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState('');
-
+  const {token}=useSelector((state)=>state.admin);
   const handleSubmit = (e) => {
+    setError(null);
     e.preventDefault();
     // Validate form fields
     if (!name || !description || !interest || !thumbnail || !img) {

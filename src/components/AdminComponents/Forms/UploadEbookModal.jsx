@@ -3,6 +3,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import Textarea from '../../Textarea'; // Import your custom Textarea component
 import axios from 'axios';
 import Input from '../../Input';
+import { useSelector } from 'react-redux';
 
 export default function UploadEbookModal() {
   const [name, setName] = useState('');
@@ -15,7 +16,7 @@ export default function UploadEbookModal() {
   const [loading, setLoading] = useState(true);
   const [catError, setCatError] = useState(null);
   const apiUrl = import.meta.env.VITE_API_URL;
-
+  const {token}=useSelector((state)=>state.admin);
   useEffect(() => {
     setError(null);
 
@@ -63,14 +64,21 @@ export default function UploadEbookModal() {
     formData.append('cover', coverImage);
     formData.append('categoryId', category);
     try {
-      const response = await axios.post(`${apiUrl}/ebooks/addebook`, formData);
+      const response = await axios.post(`${apiUrl}/ebooks/addebook`, formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(response);
       if (response.status === 201) {
-        onClose();
+        alert("Successfully added")
       } else {
         console.log("Something went wrong!");
+        alert("Something went wrong!");
       }
     } catch (error) {
+      alert("Something went wrong!");
       console.log(error);
     }
   };
