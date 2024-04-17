@@ -20,6 +20,7 @@ import AudioBooksContainer from './components/HomeComponents/AudioBooksContainer
 import ProductsContainer from './components/EcommerceComponents/ProductsContainer'
 import Karyashala from './screens/OriginalsScreen.jsx/Karyashala'
 import Pathshala from './screens/OriginalsScreen.jsx/Pathshala'
+import Login from './screens/Auth/Login'
 
 export default function App() {
   return (
@@ -41,26 +42,27 @@ export default function App() {
         <Route path='/channels' element={<AllChannels />} />
         <Route path='/creatorstudio' element={<CreatorStudio />} />
         <Route path='/uploadcontent/:channelId' element={<UploadContent />} />
-        <Route path='/live' element={<Live />} /> */}
+        // <Route path='/live' element={<Live />} /> */}
+        <Route path='/adminlogin' element={<Login />} />
         <Route path='/dashboard' element={<Dashboard />} >
           <Route index element={<DashboardHome />} />
-          <Route path='/dashboard/addpodcast' element={ <UploadPodcastModal/>} />
-          <Route path='/dashboard/addebook' element={ <UploadEbookModal/>} />
-          <Route path='/dashboard/addaudiobook' element={ <UploadAudiobookModal/>} />
-          <Route path='/dashboard/addproduct' element={ <AddProduct/>} />
-          <Route path='/dashboard/addkaryashala' element={ <AddKaryashalaModal/>} />
-          <Route path='/dashboard/addpathshala' element={ <AddPathshalaModal/>} />
-          <Route path='/dashboard/addcommunity' element={ <AddCommunityModal/>} />
-          <Route path='/dashboard/addcircle' element={ <AddCircleModal/>} />
-          <Route path='/dashboard/addinterest' element={ <AddInterestModal/>} />
-          <Route path='/dashboard/addcategory' element={ <AddCategoryModal/>} />
-          <Route path='/dashboard/addevents' element={ <PostEventModal/>} />
-          <Route path='/dashboard/podcasts' element={ <PodcastContainer/>} />
-          <Route path='/dashboard/ebooks' element={ <EbooksContainer/>} />
-          <Route path='/dashboard/audiobooks' element={ <AudioBooksContainer/>} />
-          <Route path='/dashboard/products' element={ <ProductsContainer/>} />
-          <Route path='/dashboard/karyashala' element={ <Karyashala/>} />
-          <Route path='/dashboard/pathshala' element={ <Pathshala/>} />
+          <Route path='/dashboard/addpodcast' element={<UploadPodcastModal />} />
+          <Route path='/dashboard/addebook' element={<UploadEbookModal />} />
+          <Route path='/dashboard/addaudiobook' element={<UploadAudiobookModal />} />
+          <Route path='/dashboard/addproduct' element={<AddProduct />} />
+          <Route path='/dashboard/addkaryashala' element={<AddKaryashalaModal />} />
+          <Route path='/dashboard/addpathshala' element={<AddPathshalaModal />} />
+          <Route path='/dashboard/addcommunity' element={<AddCommunityModal />} />
+          <Route path='/dashboard/addcircle' element={<AddCircleModal />} />
+          <Route path='/dashboard/addinterest' element={<AddInterestModal />} />
+          <Route path='/dashboard/addcategory' element={<AddCategoryModal />} />
+          <Route path='/dashboard/addevents' element={<PostEventModal />} />
+          <Route path='/dashboard/podcasts' element={<PodcastContainer />} />
+          <Route path='/dashboard/ebooks' element={<EbooksContainer />} />
+          <Route path='/dashboard/audiobooks' element={<AudioBooksContainer />} />
+          <Route path='/dashboard/products' element={<ProductsContainer />} />
+          <Route path='/dashboard/karyashala' element={<Karyashala />} />
+          <Route path='/dashboard/pathshala' element={<Pathshala />} />
         </Route>
       </Routes>
       {/* <Footer /> */}
