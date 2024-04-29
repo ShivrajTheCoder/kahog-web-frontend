@@ -4,33 +4,39 @@ import { useSelector } from 'react-redux';
 
 export default function ChannelContainer() {
   const [channels, setChannels] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [channelsPerPage] = useState(5); // Number of channels per page
   const apiUrl = import.meta.env.VITE_API_URL;
   const { token } = useSelector((state) => state.admin);
-  useEffect(() => {
-    // Dummy data for demonstration
-    const dummyData = [
-      {
-        id: 1,
-        channelName: "Channel A",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo autem asperiores minus magnam voluptatem perspiciatis modi? Quo, aut eligendi tenetur, explicabo, quasi animi culpa accusantium officiis suscipit harum ex quas?",
-        interest: "Technology",
-        creatorName: "Creator A"
-      },
-      {
-        id: 2,
-        channelName: "Channel B",
-        description: "Description of Channel B",
-        interest: "Travel",
-        creatorName: "Creator B"
-      },
-      // Add more dummy data as needed
-    ];
 
-    // Simulate API call by setting state with dummy data
-    setChannels(dummyData);
-  }, []);
+  useEffect(() => {
+    const fetchChannels = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`${apiUrl}/channels/getchannelsforapproval`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        // console.log(response.data.unapprovedChannels);
+        setChannels(response.data.unapprovedChannels);
+        setError(null);
+      } catch (error) {
+        setError(error.message);
+        setChannels([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchChannels();
+  }, [apiUrl, token]);
+
+  // Handle loading and error cases
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   // Get current channels
   const indexOfLastChannel = currentPage * channelsPerPage;
@@ -43,33 +49,24 @@ export default function ChannelContainer() {
   const handleApprove = async (id) => {
     // Implement approve logic here
     try {
-      //change channel id
-      const resp = await axios.put(`${apiUrl}/channels/approvechannel/1`, {
+      const resp = await axios.put(`${apiUrl}/channels/approvechannel/${id}`, {
         isApproved: true
       },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-      console.log(resp);
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (resp.status === 200) {
         console.log(resp.data);
+        // Update the channels state after approval by filtering out the approved channel
+        setChannels(channels.filter(channel => channel.id !== id));
       }
-      else {
-        alert("Something went wrong");
-      }
+    } catch (error) {
+      console.error(error);
     }
-    catch (error) {
-      alert(error);
-    }
-    // console.log("Approved channel with ID:", id);
   };
-
-  const handleDisapprove = (id) => {
-    // Implement disapprove logic here
-    console.log("Disapproved channel with ID:", id);
-  };
+  
 
   return (
     <div className='w-full mx-10'>
@@ -80,20 +77,19 @@ export default function ChannelContainer() {
             <th className="border px-4 py-2">Channel Name</th>
             <th className="border px-4 py-2">Description</th>
             <th className="border px-4 py-2">Interest</th>
-            <th className="border px-4 py-2">Creator Name</th>
+            <th className="border px-4 py-2">Creator Id</th>
             <th className="border px-4 py-2">Actions</th>
           </tr>
         </thead>
         <tbody>
           {currentChannels.map(channel => (
             <tr key={channel.id}>
-              <td className="border px-4 py-2">{channel.channelName}</td>
+              <td className="border px-4 py-2">{channel.name}</td>
               <td className="border px-4 py-2 max-w-xs overflow-hidden">{channel.description}</td>
-              <td className="border px-4 py-2">{channel.interest}</td>
-              <td className="border px-4 py-2">{channel.creatorName}</td>
+              <td className="border px-4 py-2">{channel.interest_id}</td>
+              <td className="border px-4 py-2">{channel.owner_id}</td>
               <td className="border px-4 py-2 grid grid-cols-2">
                 <button onClick={() => handleApprove(channel.id)} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-2 rounded mr-2">Approve</button>
-                {/* <button onClick={() => handleDisapprove(channel.id)} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-2 rounded">Disapprove</button> */}
               </td>
             </tr>
           ))}

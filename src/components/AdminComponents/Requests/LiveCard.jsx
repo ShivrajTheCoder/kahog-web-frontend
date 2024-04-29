@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-export default function LiveCard({ request }) {
+export default function LiveCard({ request, removeRequest }) {
     const [startTime, setStartTime] = useState(request.startTime);
     const [endTime, setEndTime] = useState(request.endTime);
     const apiUrl=import.meta.env.VITE_API_URL
@@ -42,6 +42,7 @@ export default function LiveCard({ request }) {
                     Authorization: `Bearer ${token}`,
                   },
                 });
+                removeRequest(request.id);
                 console.log(resp.data);
             } catch (error) {
                 console.log(error);

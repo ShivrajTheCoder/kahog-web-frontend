@@ -16,7 +16,7 @@ export default function PodcastContainer() {
             setError(null); // Clear any previous error
 
             try {
-                const response = await axios.get(`${apiUrl}/podcasts/getpodcastsbycategory/${categoryId}`);
+                const response = await axios.get(`${apiUrl}/podcasts/getallpodcasts`);
                 setPodcasts(response.data.podcasts);
             } catch (error) {
                 console.error(error);
@@ -28,6 +28,31 @@ export default function PodcastContainer() {
 
         fetchPodcasts();
     }, [categoryId]); // Re-fetch on category ID change
+    const handleApprove = async (id) => {
+        try {
+            const resp = await axios.put(
+                `${apiUrl}/podcasts/approvepodcast/${id}`,
+                { isApproved: true },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            if (resp.status === 200) {
+                // console.log(resp.data);
+                // Update the podcast state after approval by updating the isApproved status
+                setPodcasts(podcasts.map(podcast => {
+                    if (podcast.id === id) {
+                        return { ...podcast, isApproved: true };
+                    }
+                    return podcast;
+                }));
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const handleDelete = async (id) => {
         try {
@@ -40,11 +65,11 @@ export default function PodcastContainer() {
                 });
             // Remove the deleted podcast from the state
             console.log(response);
-            if(response.status===200){
+            if (response.status === 200) {
 
                 setPodcasts(podcasts.filter(podcast => podcast.id !== id));
             }
-            else{
+            else {
                 alert("Could'nt delete")
             }
         } catch (error) {
@@ -78,8 +103,12 @@ export default function PodcastContainer() {
                 <td className="px-4 py-2 text-center border">{podcast.name}</td>
                 <td className="px-4 py-2 text-center border">Satish</td>
                 <td className="px-4 py-2 text-center border">{podcast.description.slice(0, 50)}...</td>
-                <td className="px-4 py-2 text-center border">
+                <td className="px-4 py-2 text-center border flex flex-col">
                     <button className='bg-red-600 text-white text-sm font-bold py-1 px-2 rounded-md' onClick={() => handleDelete(podcast.id)}>Delete</button>
+                    {
+                        !podcast.isApproved && <button className='bg-green-600 text-white text-sm font-bold py-1 px-2 rounded-md mt-2' onClick={() => handleApprove(podcast.id)}>Approve </button>
+                    }
+
                 </td>
             </tr>
         ));

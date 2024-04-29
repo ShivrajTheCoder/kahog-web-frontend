@@ -3,6 +3,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import Textarea from '../../Textarea'; // Import your custom Textarea component
 import Input from '../../Input';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export default function AddCommunityModal() {
   const [name, setName] = useState('');

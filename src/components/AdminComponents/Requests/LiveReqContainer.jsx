@@ -30,6 +30,11 @@ export default function LiveReqContainer() {
     setLiveRequests(dummyData);
   }, []);
 
+  // Function to remove a request from state upon approval
+  const removeRequest = (id) => {
+    setLiveRequests(liveRequests.filter(request => request.id !== id));
+  };
+
   // Get current requests
   const indexOfLastRequest = currentPage * requestsPerPage;
   const indexOfFirstRequest = indexOfLastRequest - requestsPerPage;
@@ -53,7 +58,7 @@ export default function LiveReqContainer() {
         </thead>
         <tbody>
           {currentRequests.map(request => (
-            <LiveCard key={request.id} request={request} />
+            <LiveCard key={request.id} request={request} removeRequest={removeRequest} />
           ))}
         </tbody>
       </table>

@@ -57,9 +57,11 @@ export default function UploadPodcastModal() {
       setError('All fields are required');
       return;
     }
+    // console.log(mediaFile.type,"hree s")
     // Determine if the media file is a video
-    const isVideo = mediaFile.type.startsWith('video/');
+    const isVideo = mediaFile.type.startsWith('video/') ? 1 :0;
     // Submit form data
+    console.log(isVideo);
     const formData = new FormData();
     formData.append('name', name);
     formData.append('description', description);
@@ -68,6 +70,7 @@ export default function UploadPodcastModal() {
     formData.append('thumbnail', thumbnail);
     formData.append('categoryId', category);
     formData.append('isVideo', isVideo);
+    formData.append('isApproved', 1);
     try {
       const response = await axios.post(`${apiUrl}/podcasts/uploadpodcast`, formData,
       {
@@ -81,6 +84,7 @@ export default function UploadPodcastModal() {
 
       }
       else {
+        console.log("Something went wrong!");
         alert("Something went wrong!");
       }
     } catch (error) {
